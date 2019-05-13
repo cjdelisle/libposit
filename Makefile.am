@@ -123,25 +123,25 @@ bin_PROGRAMS += tests/universal_posit8.test
 tests_universal_posit8_test_SOURCES = Makefile \
     src/test/universal/posit8.c
 src/test/universal/posit8.c: generated/posit.h
-tests_universal_posit8_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit8_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 
 bin_PROGRAMS += tests/universal_posit16.test
 tests_universal_posit16_test_SOURCES = Makefile \
     src/test/universal/posit16.c
 src/test/universal/posit16.c: generated/posit.h
-tests_universal_posit16_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit16_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 
 bin_PROGRAMS += tests/universal_posit32.test
 tests_universal_posit32_test_SOURCES = Makefile \
     src/test/universal/posit32.c
 src/test/universal/posit32.c: generated/posit.h
-tests_universal_posit32_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit32_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 
 bin_PROGRAMS += tests/universal_posit64.test
 tests_universal_posit64_test_SOURCES = Makefile \
     src/test/universal/posit64.c
 src/test/universal/posit64.c: generated/posit.h
-tests_universal_posit64_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit64_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 
 bin_PROGRAMS += tests/math.test
 tests_math_test_SOURCES = Makefile \

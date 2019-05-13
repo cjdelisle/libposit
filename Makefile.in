@@ -701,19 +701,19 @@ libtestutil_a_SOURCES = Makefile \
 tests_universal_posit8_test_SOURCES = Makefile \
     src/test/universal/posit8.c
 
-tests_universal_posit8_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit8_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 tests_universal_posit16_test_SOURCES = Makefile \
     src/test/universal/posit16.c
 
-tests_universal_posit16_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit16_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 tests_universal_posit32_test_SOURCES = Makefile \
     src/test/universal/posit32.c
 
-tests_universal_posit32_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit32_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 tests_universal_posit64_test_SOURCES = Makefile \
     src/test/universal/posit64.c
 
-tests_universal_posit64_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_universal_posit64_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
 tests_math_test_SOURCES = Makefile \
     src/test/math/mathtest.c \
     src/test/math/mathtest.h \
