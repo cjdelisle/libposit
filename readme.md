@@ -170,7 +170,8 @@ To compile libposit, you will need [libmpfr](https://www.mpfr.org).
 
 ### Apline Linux
 
-... TODO
+1. `sudo apk add mpfr-dev gmp-dev`
+2. `mpfr_CFLAGS=" " mpfr_LIBS="-lmpfr -lgmp" ./configure`
 
 
 ## Libposit API

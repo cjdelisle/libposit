@@ -137,7 +137,7 @@ POSIT_DEBUGF("\n>> %Rb\n", f1);
     } else {
         mpfr_add(f1, f1, in, MPFR_RNDZ);
     }
-    inexact |= (mpfr_flags_test(MPFR_FLAGS_INEXACT) != 0);
+    inexact |= (mpfr_inexflag_p() != 0);
     mpfr_flags_clear(MPFR_FLAGS_INEXACT);
     assert(!mpfr_flags_save());
 
@@ -255,7 +255,7 @@ int POSIT_MKNAME(mpzToMpfr)(mpfr_t out, mpz_t in) {
     // Grab off the subexponent and the guard bit
     mpfr_mul_2si(out, out, POSIT_ES + 1, MPFR_RNDN);
 
-    bool exact = !mpfr_flags_test(MPFR_FLAGS_INEXACT);
+    bool exact = !mpfr_inexflag_p();
     unsigned long subexp = mpfr_get_ui(out, MPFR_RNDZ);
     mpfr_clear_flags(); // inexact, by definition
     mpfr_sub_ui(out, out, subexp, MPFR_RNDN);
@@ -281,7 +281,7 @@ int POSIT_MKNAME(mpzToMpfr)(mpfr_t out, mpz_t in) {
 
     if (neg) { mpfr_neg(out, out, MPFR_RNDN); }
 
-    exact &= !mpfr_flags_test(MPFR_FLAGS_INEXACT);
+    exact &= !mpfr_inexflag_p();
 
     mpfr_clear_flags();
     mpz_clear(i1);
@@ -304,7 +304,7 @@ void POSIT_MKNAME(add_exact_mpfr)(mpz_t sum, mpz_t remainder, mpfr_t x, mpfr_t y
     mpfr_clear_flags();
     assert(!mpfr_add(realSum, x, y, MPFR_RNDZ));
     //if (mpfr_flags_
-    int inexact = mpfr_flags_test(MPFR_FLAGS_INEXACT);
+    int inexact = mpfr_inexflag_p();
     mpfr_flags_clear(MPFR_FLAGS_INEXACT);
     assert(!mpfr_flags_save());
     if (inexact) {

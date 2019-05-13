@@ -16,7 +16,7 @@ LITERAL_DEFINE CURRENT_FUNCTION NULL
 #define ANYFUNC(__name__, __args__, __rett__, __argdef__) \
     static allimpls_func_t GLUE3(g_, __name__, _func) = {LITERAL(\n)\
         .name = #__name__,LITERAL(\n)\
-        .generic = (void*) __name__,LITERAL(\n)\
+        .generic = (uintptr_t) __name__,LITERAL(\n)\
         .next = CURRENT_FUNCTION LITERAL(\n)\
     };LITERAL(\n)\
     LITERAL_UNDEF CURRENT_FUNCTION LITERAL(\n)\

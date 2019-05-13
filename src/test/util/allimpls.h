@@ -9,7 +9,7 @@ struct allimpls_impl_s {
 typedef struct allimpls_func_s allimpls_func_t;
 struct allimpls_func_s {
     const char* name;
-    void* generic;
+    uintptr_t generic;
     allimpls_func_t* next;
     allimpls_impl_t* impls;
 };

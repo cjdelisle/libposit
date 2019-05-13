@@ -134,7 +134,7 @@ static inline void time_end(Data_t* d, const char* impl) {
     } \
 
 #define MEASURE1(__name__) \
-    else if (f->generic == (void*) __name__) { \
+    else if (f->generic == (uintptr_t) __name__) { \
         GLUE(__name__,_impl_t)* _imp = (GLUE(__name__,_impl_t)*) imp; \
         /* warm up the caches */ \
         TESTCYCLE(__name__); \
