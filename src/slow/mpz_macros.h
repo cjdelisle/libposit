@@ -138,7 +138,7 @@ POSIT_DEBUGF("\n>> %Rb\n", f1);
         mpfr_add(f1, f1, in, MPFR_RNDZ);
     }
     inexact |= (mpfr_inexflag_p() != 0);
-    mpfr_flags_clear(MPFR_FLAGS_INEXACT);
+    mpfr_clear_inexflag();
     assert(!mpfr_flags_save());
 
     POSIT_DEBUGF(">> %Rb %Rb inexact = %d\n", f1, in, inexact);
@@ -305,7 +305,7 @@ void POSIT_MKNAME(add_exact_mpfr)(mpz_t sum, mpz_t remainder, mpfr_t x, mpfr_t y
     assert(!mpfr_add(realSum, x, y, MPFR_RNDZ));
     //if (mpfr_flags_
     int inexact = mpfr_inexflag_p();
-    mpfr_flags_clear(MPFR_FLAGS_INEXACT);
+    mpfr_clear_inexflag();
     assert(!mpfr_flags_save());
     if (inexact) {
         // If this was rounded, it means there should be no intersecting bits in the
