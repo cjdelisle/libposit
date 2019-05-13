@@ -1,4 +1,4 @@
-#include "util.h"
+#include "positutil.h"
 
 #include <stdbool.h>
 #include <mpfr.h>
@@ -96,7 +96,7 @@ POSIT_DEBUGF("\n>> origEx = %d\n", exponent);
     // the top of our 2*POSIT_NBITS-1 precision is fixed.
     mpfr_t f1;
     mpfr_init2(f1, 2*POSIT_NBITS-1);
-    util_CANT_ROUND(mpfr_set_si(f1, 1, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_set_si(f1, 1, MPFR_RNDZ));
 
     bool inexact = false;
 
@@ -106,28 +106,28 @@ POSIT_DEBUGF("\n>> %Rb\n", f1);
             inexact = true;
             break;
         }
-        util_CANT_ROUND(mpfr_mul_2si(f1, f1, 1, MPFR_RNDZ));
-        util_CANT_ROUND(mpfr_add_si(f1, f1, !lessThan1, MPFR_RNDZ));
+        positutil_CANT_ROUND(mpfr_mul_2si(f1, f1, 1, MPFR_RNDZ));
+        positutil_CANT_ROUND(mpfr_add_si(f1, f1, !lessThan1, MPFR_RNDZ));
         //POSIT_DEBUGF("\n>> %Rb\n", f1);
     }
 
     // Guard bit
-    util_CANT_ROUND(mpfr_mul_2si(f1, f1, 1, MPFR_RNDZ));
-    util_CANT_ROUND(mpfr_add_si(f1, f1, lessThan1, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_mul_2si(f1, f1, 1, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_add_si(f1, f1, lessThan1, MPFR_RNDZ));
 
     // Add the subexponent
-    util_CANT_ROUND(mpfr_mul_2si(f1, f1, POSIT_ES, MPFR_RNDZ));
-    util_CANT_ROUND(mpfr_add_ui(f1, f1, subexponent, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_mul_2si(f1, f1, POSIT_ES, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_add_ui(f1, f1, subexponent, MPFR_RNDZ));
 
     POSIT_DEBUGF("\n>> %Rb %.40Rf inexact = %d  subex = %d reg = %d\n", f1, in, inexact, subexponent, regimeBits);
 
     // Subtract the hidden bit
-    util_CANT_ROUND(mpfr_sub_si(f1, f1, 1, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_sub_si(f1, f1, 1, MPFR_RNDZ));
 
     POSIT_DEBUGF("\nk> %Rb %.40Rf inexact = %d  subex = %d reg = %d\n", f1, in, inexact, subexponent, regimeBits);
 
     // Shift so that the hidden bit lines up with the top of the input
-    util_CANT_ROUND(mpfr_mul_2si(f1, f1, exponent-1, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_mul_2si(f1, f1, exponent-1, MPFR_RNDZ));
 
     // Round 1 (fight!)
     if (negative) {
@@ -137,38 +137,38 @@ POSIT_DEBUGF("\n>> %Rb\n", f1);
     }
     inexact |= (mpfr_inexflag_p() != 0);
     mpfr_clear_inexflag();
-    assert(!util_CHK_FLAGS());
+    assert(!positutil_CHK_FLAGS());
 
     POSIT_DEBUGF(">> %Rb %Rb inexact = %d\n", f1, in, inexact);
 
     // Put the sign bit just below the decimal point
     mpfr_exp_t trash = 0;
-    util_CANT_ROUND(mpfr_frexp(&trash, f1, f1, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_frexp(&trash, f1, f1, MPFR_RNDZ));
 
     // Shift up by 2*POSIT_NBITS so that the 1's place is 1 bit below the bottom of the input
     // (recall the input was limited to 2*POSIT_NBITS-1 bits of precision)
-    util_CANT_ROUND(mpfr_mul_2si(f1, f1, POSIT_NBITS*2, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_mul_2si(f1, f1, POSIT_NBITS*2, MPFR_RNDZ));
 
     // Bump the precision by 1 bit
-    util_CANT_ROUND(mpfr_prec_round(f1, POSIT_NBITS*2, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_prec_round(f1, POSIT_NBITS*2, MPFR_RNDZ));
 
     // Add an "inexact bit" which will be a tie-breaker, just as would have been the bits
     // that are now rounded off
-    util_CANT_ROUND(mpfr_add_si(f1, f1, inexact, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_add_si(f1, f1, inexact, MPFR_RNDZ));
 
-    POSIT_DEBUGF("x> %Rb %Rb f = %d\n", f1, in, util_CHK_FLAGS());
+    POSIT_DEBUGF("x> %Rb %Rb f = %d\n", f1, in, positutil_CHK_FLAGS());
 
     // Round 2 (fight!)
     // This time we round-to-nearest
     inexact |= (mpfr_prec_round(f1, POSIT_NBITS, MPFR_RNDN) != 0);
-    POSIT_DEBUGF(">> %Rb %Rb f = %d\n", f1, in, util_CHK_FLAGS());
-    assert(!util_CHK_FLAGS());
+    POSIT_DEBUGF(">> %Rb %Rb f = %d\n", f1, in, positutil_CHK_FLAGS());
+    assert(!positutil_CHK_FLAGS());
 
     POSIT_DEBUGF(">> %Rb %Rb inexact = %d\n", f1, in, inexact);
 
     // We have POSIT_NBITS bits so we just need to output them to the mpz
-    util_CANT_ROUND(mpfr_div_2si(f1, f1, POSIT_NBITS, MPFR_RNDZ));
-    util_CANT_ROUND(mpfr_get_z(out, f1, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_div_2si(f1, f1, POSIT_NBITS, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_get_z(out, f1, MPFR_RNDZ));
 
     // Drop the sign bit
     mpz_clrbit(out, POSIT_NBITS-1);
@@ -304,7 +304,7 @@ void POSIT_MKNAME(add_exact_mpfr)(mpz_t sum, mpz_t remainder, mpfr_t x, mpfr_t y
     //if (mpfr_flags_
     int inexact = mpfr_inexflag_p();
     mpfr_clear_inexflag();
-    assert(!util_CHK_FLAGS());
+    assert(!positutil_CHK_FLAGS());
     if (inexact) {
         // If this was rounded, it means there should be no intersecting bits in the
         // bit patterns, we could bail out immediately returning x,y but lets first
@@ -348,7 +348,7 @@ void POSIT_MKNAME(add_exact_mpfr)(mpz_t sum, mpz_t remainder, mpfr_t x, mpfr_t y
     mpfr_t rf;
     mpfr_init2(rf, POSIT_NBITS);
     POSIT_MKNAME(mpzToMpfr)(rf, sum);
-    util_CANT_ROUND(mpfr_sub(rf, realSum, rf, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_sub(rf, realSum, rf, MPFR_RNDZ));
     assert(POSIT_MKNAME(mpzFromMpfr)(remainder, rf));
 
     mpfr_clear(rf);
@@ -359,7 +359,6 @@ void POSIT_MKNAME(add_exact_mpfr)(mpz_t sum, mpz_t remainder, mpfr_t x, mpfr_t y
 
 #ifndef POSIT_NOUNDEF
 #undef POSIT_MKNAME
-#undef util_CANT_ROUND
 #undef POSIT_DEBUGF
 #undef POSIT_WORD_SZ
 #undef POSIT_SIGBIT

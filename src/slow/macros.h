@@ -3,7 +3,7 @@
 #define posit_WITH_MPFR
 #include "posit.h"
 
-#include "util.h"
+#include "positutil.h"
 
 #include <assert.h>
 #include <stdbool.h>
@@ -264,16 +264,16 @@ CONVERTER(64)
     __Static_assert(sizeof(uintmax_t) == 8, "uintmax_t size is not 8 bytes");
     POSIT_MPFR_1FUNC(int64_t, tosl, { out = mpfr_get_sj(ctx.fx, MPFR_RNDN); })
     POSIT_MPFR_1FUNC(uint64_t, toul, { out = mpfr_get_uj(ctx.fx, MPFR_RNDN); })
-    POSIT_MPFR_FUNC1(fromsl, int64_t, 64, { util_CANT_ROUND(mpfr_set_sj(mpfr, x, MPFR_RNDZ)); })
-    POSIT_MPFR_FUNC1(fromul, uint64_t, 64, { util_CANT_ROUND(mpfr_set_uj(mpfr, x, MPFR_RNDZ)); })
+    POSIT_MPFR_FUNC1(fromsl, int64_t, 64, { positutil_CANT_ROUND(mpfr_set_sj(mpfr, x, MPFR_RNDZ)); })
+    POSIT_MPFR_FUNC1(fromul, uint64_t, 64, { positutil_CANT_ROUND(mpfr_set_uj(mpfr, x, MPFR_RNDZ)); })
 #else
     _Static_assert(sizeof(long) == 8, "sizeof(long) must be 4 or 8");
     #define U32FORULONG(x) ( ((x) > UINT32_MAX) ? UINT32_MAX : (x) )
     #define S32FORSLONG(x) ( ((x) > INT32_MAX) ? INT32_MAX : ((x) < INT32_MIN ? INT32_MIN : (x)) )
     POSIT_MPFR_1FUNC(int64_t, tosl, { out = mpfr_get_si(ctx.fx, MPFR_RNDN); })
     POSIT_MPFR_1FUNC(uint64_t, toul, { out = mpfr_get_ui(ctx.fx, MPFR_RNDN); })
-    POSIT_MPFR_FUNC1(fromsl, int64_t, 64, { util_CANT_ROUND(mpfr_set_si(mpfr, x, MPFR_RNDZ)); })
-    POSIT_MPFR_FUNC1(fromul, uint64_t, 64, { util_CANT_ROUND(mpfr_set_ui(mpfr, x, MPFR_RNDZ)); })
+    POSIT_MPFR_FUNC1(fromsl, int64_t, 64, { positutil_CANT_ROUND(mpfr_set_si(mpfr, x, MPFR_RNDZ)); })
+    POSIT_MPFR_FUNC1(fromul, uint64_t, 64, { positutil_CANT_ROUND(mpfr_set_ui(mpfr, x, MPFR_RNDZ)); })
 #endif
 
 POSIT_MPFR_1FUNC(int32_t, tosi, {
@@ -284,15 +284,15 @@ POSIT_MPFR_1FUNC(uint32_t, toui, {
     unsigned long x = mpfr_get_ui(ctx.fx, MPFR_RNDN);
     out = U32FORULONG(x);
 })
-POSIT_MPFR_FUNC1(fromsi, int32_t, 32, { util_CANT_ROUND(mpfr_set_si(mpfr, x, MPFR_RNDZ)); })
-POSIT_MPFR_FUNC1(fromui, uint32_t, 32, { util_CANT_ROUND(mpfr_set_ui(mpfr, x, MPFR_RNDZ)); })
+POSIT_MPFR_FUNC1(fromsi, int32_t, 32, { positutil_CANT_ROUND(mpfr_set_si(mpfr, x, MPFR_RNDZ)); })
+POSIT_MPFR_FUNC1(fromui, uint32_t, 32, { positutil_CANT_ROUND(mpfr_set_ui(mpfr, x, MPFR_RNDZ)); })
 
 POSIT_T POSIT_MKNAME(shift)(POSIT_T x, int32_t y) {
     POSIT_MKNAME(Context_t) ctx;
     POSIT_MKNAME(init)(&ctx, 2*POSIT_NBITS);
     POSIT_MKNAME(_toMpfr)(ctx.i, ctx.fx, x);
 
-    util_CANT_ROUND(mpfr_mul_2si(ctx.fy, ctx.fx, y, MPFR_RNDZ));
+    positutil_CANT_ROUND(mpfr_mul_2si(ctx.fy, ctx.fx, y, MPFR_RNDZ));
     POSIT_T out = POSIT_MKNAME(_fromMpfr)(ctx.i, ctx.fy);
     POSIT_MKNAME(fini)(&ctx);
     return out;
@@ -358,7 +358,6 @@ POSIT_MPFR_1FUNC(POSIT_T, fract, {
 #endif // POSIT_UNDEF
 
 #ifndef POSIT_NOUNDEF
-    #undef util_CANT_ROUND
     #undef POSIT_UNDEF
     #undef POSIT_MKNAME
     #undef POSIT_GLUE
