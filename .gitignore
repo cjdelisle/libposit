@@ -6,6 +6,8 @@
 /tests
 /test-suite.log
 /Makefile
-/config.*
 /autom4te.cache
 /stamp-h1
+/config.log
+/config.status
+/config.h
