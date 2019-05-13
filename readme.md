@@ -364,5 +364,17 @@ the posit of the same width.
 * `posit<X>_t posit<X>_reinterpret(uint<X>_t x)`: Interpret the bit pattern of a given unsigned
 integer as a posit of the same width.
 
+## Special thanks
+
+This posit library includes parts of:
+* [Cerlane Leong](https://gitlab.com/cerlane/) and the [SoftPosit](https://gitlab.com/cerlane/SoftPosit)
+project of which a significant portion is being used as a backend implementation for libposit.
+* [Dr. E. Theodore L. Omtzigt](https://github.com/Ravenwater) and the
+[Universal](https://github.com/stillwater-sc/universal) project of which some tests are used for
+helping test libposit.
+* [John L. Gustafson](http://www.johngustafson.net/) the inventor of it all...
+
+ https://github.com/stillwater-sc/universal
+
 ## Notes:
 1. This is discounting [denormal numbers](https://en.wikipedia.org/wiki/Denormal_numbers)
