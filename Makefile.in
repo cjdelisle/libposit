@@ -214,48 +214,48 @@ PROGRAMS = $(bin_PROGRAMS)
 am_tests_convert_toint_OBJECTS = src/test/convert/toint.$(OBJEXT)
 tests_convert_toint_OBJECTS = $(am_tests_convert_toint_OBJECTS)
 am__DEPENDENCIES_1 =
-tests_convert_toint_DEPENDENCIES = libposit.a libtestutil.a \
+tests_convert_toint_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_fuzz_OBJECTS = src/test/fuzz/fuzz.$(OBJEXT)
 tests_fuzz_OBJECTS = $(am_tests_fuzz_OBJECTS)
-tests_fuzz_DEPENDENCIES = libposit.a libtestutil.a \
+tests_fuzz_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_math_test_OBJECTS = src/test/math/mathtest.$(OBJEXT)
 tests_math_test_OBJECTS = $(am_tests_math_test_OBJECTS)
-tests_math_test_DEPENDENCIES = libposit.a libtestutil.a \
+tests_math_test_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_perf_measure_OBJECTS = src/test/perf_measure.$(OBJEXT)
 tests_perf_measure_OBJECTS = $(am_tests_perf_measure_OBJECTS)
-tests_perf_measure_DEPENDENCIES = libposit.a libtestutil.a \
+tests_perf_measure_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_rounding_test_OBJECTS =  \
 	src/test/rounding/roundingtest.$(OBJEXT)
 tests_rounding_test_OBJECTS = $(am_tests_rounding_test_OBJECTS)
-tests_rounding_test_DEPENDENCIES = libposit.a libtestutil.a \
+tests_rounding_test_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_universal_posit16_test_OBJECTS =  \
 	src/test/universal/posit16.$(OBJEXT)
 tests_universal_posit16_test_OBJECTS =  \
 	$(am_tests_universal_posit16_test_OBJECTS)
-tests_universal_posit16_test_DEPENDENCIES = libposit.a libtestutil.a \
+tests_universal_posit16_test_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_universal_posit32_test_OBJECTS =  \
 	src/test/universal/posit32.$(OBJEXT)
 tests_universal_posit32_test_OBJECTS =  \
 	$(am_tests_universal_posit32_test_OBJECTS)
-tests_universal_posit32_test_DEPENDENCIES = libposit.a libtestutil.a \
+tests_universal_posit32_test_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_universal_posit64_test_OBJECTS =  \
 	src/test/universal/posit64.$(OBJEXT)
 tests_universal_posit64_test_OBJECTS =  \
 	$(am_tests_universal_posit64_test_OBJECTS)
-tests_universal_posit64_test_DEPENDENCIES = libposit.a libtestutil.a \
+tests_universal_posit64_test_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 am_tests_universal_posit8_test_OBJECTS =  \
 	src/test/universal/posit8.$(OBJEXT)
 tests_universal_posit8_test_OBJECTS =  \
 	$(am_tests_universal_posit8_test_OBJECTS)
-tests_universal_posit8_test_DEPENDENCIES = libposit.a libtestutil.a \
+tests_universal_posit8_test_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -700,43 +700,43 @@ libtestutil_a_SOURCES = Makefile \
 tests_universal_posit8_test_SOURCES = Makefile \
     src/test/universal/posit8.c
 
-tests_universal_posit8_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_universal_posit8_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_universal_posit16_test_SOURCES = Makefile \
     src/test/universal/posit16.c
 
-tests_universal_posit16_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_universal_posit16_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_universal_posit32_test_SOURCES = Makefile \
     src/test/universal/posit32.c
 
-tests_universal_posit32_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_universal_posit32_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_universal_posit64_test_SOURCES = Makefile \
     src/test/universal/posit64.c
 
-tests_universal_posit64_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_universal_posit64_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_math_test_SOURCES = Makefile \
     src/test/math/mathtest.c \
     src/test/math/mathtest.h \
     src/test/math/mathhdr.h
 
-tests_math_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_math_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_rounding_test_SOURCES = Makefile \
     src/slow/mpz_macros.h \
     src/test/rounding/posit_macros_impl.h \
     src/test/rounding/roundingtest.c
 
-tests_rounding_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_rounding_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_perf_measure_SOURCES = Makefile \
     src/test/perf_measure.c
 
-tests_perf_measure_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_perf_measure_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_fuzz_SOURCES = Makefile \
     src/test/fuzz/fuzz.c
 
-tests_fuzz_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_fuzz_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 tests_convert_toint_SOURCES = Makefile \
     src/test/convert/toint.c
 
-tests_convert_toint_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
+tests_convert_toint_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
