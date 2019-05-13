@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c",
+        "algorithm": "c",
+        "typeinfo": "c",
+        "cmath": "c",
+        "complex": "c",
+        "__locale": "c"
+    }
+}
