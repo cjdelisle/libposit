@@ -150,7 +150,7 @@ libposit_a_AR = $(AR) $(ARFLAGS)
 libposit_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libposit_a_OBJECTS = src/slow/slowposit.$(OBJEXT) \
-	src/libposit.$(OBJEXT) \
+	src/libposit.$(OBJEXT) src/softposit/e_pow.$(OBJEXT) \
 	src/softposit/c_convertPosit8ToDec.$(OBJEXT) \
 	src/softposit/c_convertPosit16ToDec.$(OBJEXT) \
 	src/softposit/c_convertPosit32ToDec.$(OBJEXT) \
@@ -634,6 +634,7 @@ libposit_a_SOURCES = Makefile \
     src/slow/mpz_macros.h \
     src/slow/slowposit.c \
     src/libposit.c \
+    src/softposit/e_pow.c \
     src/softposit/c_convertPosit8ToDec.c \
     src/softposit/c_convertPosit16ToDec.c \
     src/softposit/c_convertPosit32ToDec.c \
@@ -843,6 +844,8 @@ src/softposit/$(am__dirstamp):
 src/softposit/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/softposit/$(DEPDIR)
 	@: > src/softposit/$(DEPDIR)/$(am__dirstamp)
+src/softposit/e_pow.$(OBJEXT): src/softposit/$(am__dirstamp) \
+	src/softposit/$(DEPDIR)/$(am__dirstamp)
 src/softposit/c_convertPosit8ToDec.$(OBJEXT):  \
 	src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
@@ -1149,6 +1152,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/c_convertPosit16ToDec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/c_convertPosit32ToDec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/c_convertPosit8ToDec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/e_pow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i32_to_p16.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i32_to_p32.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i32_to_p8.Po@am__quote@

@@ -52,13 +52,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | (typically 'float' and 'double', and possibly 'long double').
 *----------------------------------------------------------------------------*/
 
+// libposit overrides are here:
 // Pulling this in will verify that we have registered functions of the proper signatures
 #include "implementation.h"
-
 // This is needed because we're expecting posit<X>_toui() is expected to return a uint32_t
 // and on some systems that's not happening.
 #define uint_fast32_t uint32_t
 #define int_fast32_t int32_t
+double softposit_pow(double x, double y);
+#define pow(a,b) softposit_pow(a,b)
 
 #ifdef SOFTPOSIT_EXACT
 	typedef struct { uint8_t v; bool exact; } posit8_t;

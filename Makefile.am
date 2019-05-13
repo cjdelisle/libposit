@@ -47,6 +47,7 @@ libposit_a_SOURCES = Makefile \
     src/slow/mpz_macros.h \
     src/slow/slowposit.c \
     src/libposit.c \
+    src/softposit/e_pow.c \
     src/softposit/c_convertPosit8ToDec.c \
     src/softposit/c_convertPosit16ToDec.c \
     src/softposit/c_convertPosit32ToDec.c \
