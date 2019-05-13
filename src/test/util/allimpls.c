@@ -3,6 +3,12 @@
 #define posit_WITH_MPFR
 #include "enumerate_implementations.h"
 
+static int g_had_disagreement;
+
+int allimpls_had_disagreement() {
+    return g_had_disagreement;
+}
+
 void allimpls_register() {
     static int isregged;
     if (isregged) { return; }
@@ -32,6 +38,7 @@ static uint8_t* g_arg1p = (uint8_t*) &arg1;
             if (realimpl->call == posit__GLUE(__name__,_slowimpl)) { continue; } \
             __rett__ implout = realimpl->call __args__; \
             if (memcmp(&implout, &slowout, sizeof(__rett__))) { \
+                g_had_disagreement = 1; \
                 uint8_t* so = (uint8_t*) &slowout; \
                 uint8_t* io = (uint8_t*) &implout; \
                 uint8_t* _a = (uint8_t*) &arg0; \

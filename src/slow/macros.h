@@ -162,9 +162,21 @@ POSIT_MPFR_FUNC(POSIT_T, div, {
     out = POSIT_MKNAME(fromMpfr)(ctx.fx);
 })
 
-POSIT_MPFR_FUNC(int, cmp, { out = mpfr_cmp(ctx.fx, ctx.fy); })
-POSIT_MPFR_FUNC(int, cmpabs, { out = mpfr_cmpabs(ctx.fx, ctx.fy); })
-POSIT_MPFR_FUNC(bool, equals, { out = mpfr_cmp(ctx.fx, ctx.fy) == 0; })
+POSIT_MPFR_FUNC(int, cmp, {
+    if (mpfr_nan_p(ctx.fx)) { return -1; }
+    if (mpfr_nan_p(ctx.fy)) { return 1; }
+    out = mpfr_cmp(ctx.fx, ctx.fy);
+})
+POSIT_MPFR_FUNC(int, cmpabs, {
+    if (mpfr_nan_p(ctx.fx)) { return -1; }
+    if (mpfr_nan_p(ctx.fy)) { return 1; }
+    out = mpfr_cmpabs(ctx.fx, ctx.fy);
+})
+POSIT_MPFR_FUNC(bool, equals, {
+    if (mpfr_nan_p(ctx.fx)) { return 0; }
+    if (mpfr_nan_p(ctx.fy)) { return 0; }
+    out = mpfr_cmp(ctx.fx, ctx.fy) == 0;
+})
 
 POSIT_MPFR_1FUNC(POSIT_T, sqrt, {
     mpfr_sqrt(ctx.fx, ctx.fx, MPFR_RNDN);

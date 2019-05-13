@@ -37,6 +37,26 @@ static void testp32to8() {
 int main() {
     testp32to8();
 
+    mpfr_t mpfr;
+    mpfr_init2(mpfr, 1024);
+    mpfr_const_pi(mpfr, MPFR_RNDN);
+    mpfr_mul_si(mpfr, mpfr, 3, MPFR_RNDN);
+    mpfr_mul(mpfr, mpfr, mpfr, MPFR_RNDN);
+
+    posit32_t xxp32 = posit32_fromsi(1);
+    posit32_t xx_p32 = posit32_reinterpret(posit32_bits(xxp32) + 1);
+    mpfr_printf("%.40Rf %.40f %.40f\n", mpfr, posit32_tod(xxp32), posit32_tod(xx_p32));
+
+    mpfr_printf("%.40f\n", ( (3.14159265358979323846264338327950288f * 3.0f) * (3.14159265358979323846264338327950288f * 3.0f) ));
+
+    xxp32 = posit32_fromd(3.14159265358979323846264338327950288);
+    xx_p32 = posit32_fromui(3);
+    posit32_t mul = posit32_mul(xx_p32, xxp32);
+    mul = posit32_mul(mul, mul);
+    posit32_toMpfr(mpfr, mul);
+    mpfr_printf("%.40Rf\n", mpfr);
+
+
     posit8_t p8; p8.v = 0;
     assert(posit8_tosi_all(p8) == 0);
     for (p8.v = 0; p8.v < 0x80; p8.v++) {
@@ -49,8 +69,8 @@ int main() {
     }
 
     posit32_t p32; p32.v = 0x80063666;
-    mpfr_t mpfr;
-    mpfr_init2(mpfr, 128);
+    //mpfr_t mpfr;
+    //mpfr_init2(mpfr, 128);
     posit32_toMpfr(mpfr, p32);
     mpfr_printf("%.40Rf\n", mpfr);
 

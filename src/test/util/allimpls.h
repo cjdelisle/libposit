@@ -18,6 +18,9 @@ allimpls_func_t* g_posit_functions;
 
 void allimpls_register();
 
+// returns non-zero if there was a disagreement between implementations
+int allimpls_had_disagreement();
+
 #define ANYFUNC(__name__, __args__, __rett__, __argdef__) \
     typedef struct posit__GLUE(__name__, _impl_s) posit__GLUE(__name__, _impl_t); \
     struct posit__GLUE(__name__, _impl_s) { \

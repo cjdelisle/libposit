@@ -108,4 +108,6 @@ int main(int argc, const char** argv) {
         FROM(sl)
 
     } while (!afl);
+
+    return allimpls_had_disagreement();
 }
