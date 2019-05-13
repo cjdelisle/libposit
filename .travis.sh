@@ -11,4 +11,5 @@ else
     export mpfr_LIBS="-lmpfr -lgmp"
     ./configure CC=$CC CXX=$CXX || die
     make || die
+    make check || die
 fi
