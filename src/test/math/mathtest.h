@@ -1,3 +1,5 @@
+#include "util.h"
+
 #include <assert.h>
 #include <stdio.h>
 
@@ -12,12 +14,6 @@
 #include "mathhdr.h"
 
 #define VERBOSE 0
-
-#define POSIT_CANT_ROUND(expr) do {\
-    mpfr_clear_flags(); \
-    assert(!(expr)); \
-    assert(!mpfr_flags_save() && #expr "should not round"); \
-} while (0)
 
 #define TEST1(__name__, __impl__) \
 static inline void MKNAME(GLUE(__name__, Test))(TestContext_t* ctx) { \
@@ -99,7 +95,7 @@ TEST2(add, {
     } else {
         //mpfr_printf("%.20Rf + %.60Rf\n", ctx->ma, ctx->mb);
         if (POSIT_NBITS < 32) {
-            POSIT_CANT_ROUND(mpfr_add(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ));
+            util_CANT_ROUND(mpfr_add(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ));
         } else {
             mpfr_add(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ);
         }
@@ -121,7 +117,7 @@ TEST2(sub, {
         mpfr_set_zero(ctx->mref, MPFR_RNDZ);
     } else {
         if (POSIT_NBITS < 32) {
-            POSIT_CANT_ROUND(mpfr_sub(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ));
+            util_CANT_ROUND(mpfr_sub(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ));
         } else {
             mpfr_sub(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ);
         }
@@ -136,7 +132,7 @@ TEST2(mul, {
         // anything * nan -> nan
         mpfr_set_nan(ctx->mref);
     } else {
-        POSIT_CANT_ROUND(mpfr_mul(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ));
+        util_CANT_ROUND(mpfr_mul(ctx->mref, ctx->ma, ctx->mb, MPFR_RNDZ));
     }
 })
 
