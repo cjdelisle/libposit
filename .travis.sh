@@ -7,8 +7,8 @@ if test "`uname`" = "Darwin"; then
     ./configure || die
     make || die
 else
-    find /usr -name 'mpfr.pc'
-    pkg-config --list-all
+    export mpfr_CFLAGS=" "
+    export mpfr_LIBS="-lmpfr -lgmp"
     ./configure CC=$CC CXX=$CXX || die
     make || die
 fi
