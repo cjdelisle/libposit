@@ -117,7 +117,7 @@ static inline void time_end(Data_t* d, const char* impl) {
     struct timeval tv;
     gettimeofday(&tv,(struct timezone *) 0);
     uint64_t usec = (tv.tv_sec - d->tv.tv_sec) * 1000000ull + tv.tv_usec - d->tv.tv_usec;
-    printf("%s - %lld micros\n", &SPACES[strlen(impl)], usec);
+    printf("%s - %lld micros\n", &SPACES[strlen(impl)], (long long) usec);
     if (usec < d->besttime) {
         d->bestimpl = impl;
         d->besttime = usec;
@@ -152,7 +152,9 @@ static inline void time_end(Data_t* d, const char* impl) {
     MEASURE_ALL(GLUE(from,__name__))
 
 int main() {
-    srand(time(NULL));
+    struct timeval tv;
+    gettimeofday(&tv,(struct timezone *) 0);
+    srand(tv.tv_usec);
     Data_t data;
     for (int i = 0; i < (int)sizeof data / 2; i++) { data.shorts[i] = rand(); }
 
