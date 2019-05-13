@@ -1,5 +1,7 @@
 # Libposit
 
+[![Build Status](https://travis-ci.org/cjdelisle/libposit.svg?branch=master)](https://travis-ci.org/cjdelisle/libposit)
+
 A library for working with the
 [posit](https://www.johndcook.com/blog/2018/04/11/anatomy-of-a-posit-number/) number type. It
 contains basic math operations for `posit8_t`, `posit16_t`, `posit32_t` and `posit64_t`.

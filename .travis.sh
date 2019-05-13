@@ -7,6 +7,8 @@ if test "`uname`" = "Darwin"; then
     ./configure || die
     make || die
 else
+    find /usr -name 'mpfr.pc'
+    pkg-config --list-all
     ./configure CC=$CC CXX=$CXX || die
     make || die
 fi
