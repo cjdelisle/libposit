@@ -8,7 +8,8 @@ CFLAGS = \
     -std=c11 \
     -g \
     -O0 -march=native \
-    -Werror -Igenerated -Isrc
+    -Werror -Igenerated -Isrc \
+    ${mpfr_CFLAGS}
 
 #-fsanitize=address -lasan
 
@@ -120,25 +121,25 @@ bin_PROGRAMS += tests/universal_posit8.test
 tests_universal_posit8_test_SOURCES = Makefile \
     src/test/universal/posit8.c
 src/test/universal/posit8.c: generated/posit.h
-tests_universal_posit8_test_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_universal_posit8_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/universal_posit16.test
 tests_universal_posit16_test_SOURCES = Makefile \
     src/test/universal/posit16.c
 src/test/universal/posit16.c: generated/posit.h
-tests_universal_posit16_test_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_universal_posit16_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/universal_posit32.test
 tests_universal_posit32_test_SOURCES = Makefile \
     src/test/universal/posit32.c
 src/test/universal/posit32.c: generated/posit.h
-tests_universal_posit32_test_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_universal_posit32_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/universal_posit64.test
 tests_universal_posit64_test_SOURCES = Makefile \
     src/test/universal/posit64.c
 src/test/universal/posit64.c: generated/posit.h
-tests_universal_posit64_test_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_universal_posit64_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/math.test
 tests_math_test_SOURCES = Makefile \
@@ -146,7 +147,7 @@ tests_math_test_SOURCES = Makefile \
     src/test/math/mathtest.h \
     src/test/math/mathhdr.h
 src/test/math/mathtest.c: generated/posit.h
-tests_math_test_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_math_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/rounding.test
 tests_rounding_test_SOURCES = Makefile \
@@ -154,25 +155,25 @@ tests_rounding_test_SOURCES = Makefile \
     src/test/rounding/posit_macros_impl.h \
     src/test/rounding/roundingtest.c
 src/test/rounding/roundingtest.c: generated/posit.h
-tests_rounding_test_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_rounding_test_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/perf_measure
 tests_perf_measure_SOURCES = Makefile \
     src/test/perf_measure.c
 src/test/perf_measure.c: generated/posit.h
-tests_perf_measure_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_perf_measure_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/fuzz
 tests_fuzz_SOURCES = Makefile \
     src/test/fuzz/fuzz.c
 src/test/perf_measure.c: generated/posit.h
-tests_fuzz_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_fuzz_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 bin_PROGRAMS += tests/convert_toint
 tests_convert_toint_SOURCES = Makefile \
     src/test/convert/toint.c
 src/test/perf_measure.c: generated/posit.h
-tests_convert_toint_LDADD = libposit.a libtestutil.a ${MPFR_LIBS} ${GMP_LIBS}
+tests_convert_toint_LDADD = libposit.a libtestutil.a ${mpfr_LIBS}
 
 TESTS= \
     tests/rounding.test \

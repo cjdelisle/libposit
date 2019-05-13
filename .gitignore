@@ -1,2 +1,11 @@
-/.deps
-
+.deps
+.dirstamp
+/generated
+/*.a
+*.o
+/tests
+/test-suite.log
+/Makefile
+/config.*
+/autom4te.cache
+/stamp-h1
