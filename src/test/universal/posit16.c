@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 			db = posit16_tof(pb);
 			dref = da + db;
 			posit16_t pref = posit16_fromf(dref);
-			if (posit16_cmp(pref, pc)) {
+			if (posit16_bits(pref) != posit16_bits(pc)) {
 				printf("FAIL: 16.1x%04xp + 16.1x%04xp produced 16.1x%04xp instead of 16.1x%04xp\n",
                     posit16_bits(pa), posit16_bits(pb), posit16_bits(pc), posit16_bits(pref));
 				++fails;
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 			db = posit16_tof(pb);
 			dref = da - db;
 			posit16_t pref = posit16_fromf(dref);
-			if (posit16_cmp(pref, pc)) {
+			if (posit16_bits(pref) != posit16_bits(pc)) {
 				printf("FAIL: 16.1x%04xp - 16.1x%04xp produced 16.1x%04xp instead of 16.1x%04xp\n",
                     posit16_bits(pa), posit16_bits(pb), posit16_bits(pc), posit16_bits(pref));
 				++fails;
@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
 			db = posit16_tof(pb);
 			dref = da * db;
 			posit16_t pref = posit16_fromf(dref);
-			if (posit16_cmp(pref, pc)) {
+			if (posit16_bits(pref) != posit16_bits(pc)) {
 				printf("FAIL: 16.1x%04xp * 16.1x%04xp produced 16.1x%04xp instead of 16.1x%04xp\n",
                     posit16_bits(pa), posit16_bits(pb), posit16_bits(pc), posit16_bits(pref));
 				++fails;
@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
 			db = posit16_tof(pb);
 			dref = da / db;
 			posit16_t pref = posit16_fromf(dref);
-			if (posit16_cmp(pref, pc)) {
+			if (posit16_bits(pref) != posit16_bits(pc)) {
 				printf("FAIL: 16.1x%04xp / 16.1x%04xp produced 16.1x%04xp instead of 16.1x%04xp\n",
                     posit16_bits(pa), posit16_bits(pb), posit16_bits(pc), posit16_bits(pref));
                 printf("FAIL: %.20f / %.20f produced %.20f instead of %.20f\n",
@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
 		da = posit16_tod(pa);
 		dref = sqrt(da);
 		posit16_t pref = posit16_fromd(dref);
-		if (posit16_cmp(pref, pc)) {
+		if (posit16_bits(pref) != posit16_bits(pc)) {
 			printf("FAIL: sqrt(%.20f) produced %.20f instead of %.20f\n",
 				posit16_tod(pa), posit16_tod(pc), posit16_tod(pref));
 			++fails;
@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
 		pa = posit16_reinterpret(a);
 		double da = posit16_tod(pa);
         pb = posit16_fromd(da);
-        if (posit16_cmp(pa, pb)) {
+        if (posit16_bits(pa) != posit16_bits(pb)) {
 			printf("FAIL: posit16_tod(%04x) produced %.20f and the reverse produced %04x\n",
 				a, da, pb.v);
 			++fails;
@@ -201,7 +201,8 @@ int main(int argc, char* argv[])
 		dref = exp(da);
 		posit16_t pref = posit16_fromd(dref);
         if (dref == 0.0) { pref = posit16_MIN; }
-		if (posit16_cmp(pref, pc)) {
+        if (dref == INFINITY) { pref = posit16_MAX; }
+		if (posit16_bits(pref) != posit16_bits(pc)) {
             printf("FAIL: exp(%.20f %.20f) produced %.20f instead of %.20f %.20f\n",
                 posit16_tod(pa), da, posit16_tod(pc), posit16_tod(pref), dref);
             ++fails;
@@ -224,7 +225,7 @@ int main(int argc, char* argv[])
 		da = posit16_tod(pa);
 		dref = log(da);
 		posit16_t pref = posit16_fromd(dref);
-		if (posit16_cmp(pref, pc)) {
+		if (posit16_bits(pref) != posit16_bits(pc)) {
 			printf("FAIL: log(%f) produced %f instead of %f\n",
 				da, posit16_tod(pc), posit16_tod(pref));
 			++fails;

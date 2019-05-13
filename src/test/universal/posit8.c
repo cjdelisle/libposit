@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 			db = posit8_tof(pb);
 			dref = da + db;
 			posit8_t pref = posit8_fromf(dref);
-			if (posit8_cmp(pref, pc)) {
+			if (posit8_bits(pref) != posit8_bits(pc)) {
 				printf("FAIL: 8.0x%02xp + 8.0x%02xp produced 8.0x%02xp instead of 8.0x%02xp\n",
                     posit8_bits(pa), posit8_bits(pb), posit8_bits(pc), posit8_bits(pref));
 				++fails;
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
 			db = posit8_tof(pb);
 			dref = da - db;
 			posit8_t pref = posit8_fromf(dref);
-			if (posit8_cmp(pref, pc)) {
+			if (posit8_bits(pref) != posit8_bits(pc)) {
 				printf("FAIL: 8.0x%02xp - 8.0x%02xp produced 8.0x%02xp instead of 8.0x%02xp\n",
                     posit8_bits(pa), posit8_bits(pb), posit8_bits(pc), posit8_bits(pref));
 				++fails;
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 			db = posit8_tof(pb);
 			dref = da * db;
 			posit8_t pref = posit8_fromf(dref);
-			if (posit8_cmp(pref, pc)) {
+			if (posit8_bits(pref) != posit8_bits(pc)) {
 				printf("FAIL: 8.0x%02xp * 8.0x%02xp produced 8.0x%02xp instead of 8.0x%02xp\n",
                     posit8_bits(pa), posit8_bits(pb), posit8_bits(pc), posit8_bits(pref));
 				++fails;
@@ -142,7 +142,7 @@ int main(int argc, char* argv[])
 			db = posit8_tof(pb);
 			dref = da / db;
 			posit8_t pref = posit8_fromf(dref);
-			if (posit8_cmp(pref, pc)) {
+			if (posit8_bits(pref) != posit8_bits(pc)) {
 				printf("FAIL: 8.0x%02xp / 8.0x%02xp produced 8.0x%02xp instead of 8.0x%02xp\n",
                     posit8_bits(pa), posit8_bits(pb), posit8_bits(pc), posit8_bits(pref));
 				++fails;
@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
 		da = posit8_tod(pa);
 		dref = sqrt(da);
 		posit8_t pref = posit8_fromd(dref);
-		if (posit8_cmp(pref, pc)) {
+		if (posit8_bits(pref) != posit8_bits(pc)) {
 			printf("FAIL: sqrt(8.0x%02xp) produced 8.0x%02xp instead of 8.0x%02xp\n",
 	    posit8_bits(pa), posit8_bits(pc), posit8_bits(pref));
 			++fails;
@@ -189,7 +189,7 @@ int main(int argc, char* argv[])
 		da = posit8_tod(pa);
 		dref = exp(da);
 		posit8_t pref = posit8_fromd(dref);
-		if (posit8_cmp(pref, pc)) {
+		if (posit8_bits(pref) != posit8_bits(pc)) {
 			printf("FAIL: exp(8.0x%02xp) produced 8.0x%02xp instead of 8.0x%02xp\n",
 				posit8_bits(pa), posit8_bits(pc), posit8_bits(pref));
 			++fails;
@@ -212,7 +212,7 @@ int main(int argc, char* argv[])
 		da = posit8_tod(pa);
 		dref = log(da);
 		posit8_t pref = posit8_fromd(dref);
-		if (posit8_cmp(pref, pc)) {
+		if (posit8_bits(pref) != posit8_bits(pc)) {
 			printf("FAIL: log(8.0x%02xp) produced 8.0x%02xp instead of 8.0x%02xp\n",
 				posit8_bits(pa), posit8_bits(pc), posit8_bits(pref));
 			++fails;

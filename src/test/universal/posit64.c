@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 			db = posit64_told(pb);
 			dref = da + db;
 			posit64_t pref = posit64_fromd(dref);
-			if (posit64_cmp(pref, pc)) {
+			if (posit64_bits(pref) != posit64_bits(pc)) {
 				char sa[32], sb[32], sc[32], sref[32];
 				posit64_debug(sa, pa);
 				posit64_debug(sb, pb);
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 			db = posit64_told(pb);
 			dref = da - db;
 			posit64_t pref = posit64_fromd(dref);
-			if (posit64_cmp(pref, pc)) {
+			if (posit64_bits(pref) != posit64_bits(pc)) {
 				char sa[32], sb[32], sc[32], sref[32];
 				posit64_debug(sa, pa);
 				posit64_debug(sb, pb);
@@ -131,7 +131,7 @@ int main(int argc, char* argv[])
 			db = posit64_told(pb);
 			dref = da * db;
 			posit64_t pref = posit64_fromd(dref);
-			if (posit64_cmp(pref, pc)) {
+			if (posit64_bits(pref) != posit64_bits(pc)) {
 				char sa[32], sb[32], sc[32], sref[32];
 				posit64_debug(sa, pa);
 				posit64_debug(sb, pb);
@@ -170,7 +170,7 @@ int main(int argc, char* argv[])
 			db = posit64_told(pb);
 			dref = da / db;
 			posit64_t pref = posit64_fromd(dref);
-			if (posit64_cmp(pref, pc)) {
+			if (posit64_bits(pref) != posit64_bits(pc)) {
 				char sa[32], sb[32], sc[32], sref[32];
 				posit64_debug(sa, pa);
 				posit64_debug(sb, pb);

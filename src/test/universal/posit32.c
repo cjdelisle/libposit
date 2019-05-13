@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 			db = posit32_tod(pb);
 			dref = da + db;
 			posit32_t pref = posit32_fromd(dref);
-			if (posit32_cmp(pref, pc)) {
+			if (posit32_bits(pref) != posit32_bits(pc)) {
 				printf("FAIL: 32.2x%08xp + 32.2x%08xp produced 32.2x%08xp instead of 32.2x%08xp\n",
                     posit32_bits(pa), posit32_bits(pb), posit32_bits(pc), posit32_bits(pref));
 				++fails;
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 			db = posit32_tod(pb);
 			dref = da * db;
 			posit32_t pref = posit32_fromd(dref);
-			if (posit32_cmp(pref, pc) != 0) {
+			if (posit32_bits(pref) != posit32_bits(pc)) {
 				printf("FAIL: 32.2x%08xp * 32.2x%08xp produced 32.2x%08xp instead of 32.2x%08xp\n",
                     posit32_bits(pa), posit32_bits(pb), posit32_bits(pc), posit32_bits(pref));
 				++fails;
@@ -142,7 +142,7 @@ int main(int argc, char* argv[])
 			db = posit32_tod(pb);
 			dref = da / db;
 			posit32_t pref = posit32_fromd(dref);
-			if (posit32_cmp(pref, pc) != 0) {
+			if (posit32_bits(pref) != posit32_bits(pc)) {
 				printf("FAIL: 32.2x%08xp / 32.2x%08xp produced 32.2x%08xp instead of 32.2x%08xp\n",
                     posit32_bits(pa), posit32_bits(pb), posit32_bits(pc), posit32_bits(pref));
 				++fails;

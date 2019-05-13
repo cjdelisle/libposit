@@ -194,6 +194,8 @@ POSIT_MPFR_1FUNC(POSIT_T, exp, {
     if (mpfr_zero_p(ctx.fx)) {
         // be careful, mpfr flushes to zero!
         out = POSIT_GLUE3(posit,POSIT_NBITS,_MIN);
+    } else if (mpfr_inf_p(ctx.fx)) {
+        out = POSIT_GLUE3(posit,POSIT_NBITS,_MAX);
     } else {
         out = POSIT_MKNAME(fromMpfr)(ctx.fx);
     }

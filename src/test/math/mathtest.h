@@ -27,7 +27,7 @@ static inline void MKNAME(GLUE(__name__, Test))(TestContext_t* ctx) { \
         POSIT_T pc; \
         __impl__; \
         POSIT_T pref = MKNAME(fromMpfr)(ctx->mref); \
-        if (MKNAME(cmp)(pref, pc)) { \
+        if (MKNAME(bits)(pref) != MKNAME(bits)(pc)) { \
             char buf[4][MKNAME(debug_SIZE)]; \
             MKNAME(toMpfr)(ctx->mc, pc); \
             mpfr_printf("FAIL: %s(%s) produced %s instead of %s " \
@@ -57,7 +57,7 @@ static inline void MKNAME(GLUE(__name__, Test))(TestContext_t* ctx) { \
             POSIT_T pc; \
             __impl__; \
             POSIT_T pref = MKNAME(fromMpfr)(ctx->mref); \
-            if (MKNAME(cmp)(pref, pc)) { \
+            if (MKNAME(bits)(pref) != MKNAME(bits)(pc)) { \
                 char buf[4][MKNAME(debug_SIZE)]; \
                 printf("FAIL: %s(%s, %s) produced %s instead of %s\n", #__name__, \
                     MKNAME(debug)(buf[0], pa), MKNAME(debug)(buf[1], pb), \
