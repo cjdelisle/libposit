@@ -20,21 +20,22 @@ define posit_preprocess
     $(AM_V_at)-rm generated/$1.0 generated/$1.1
 endef
 
-generated:
+generated/.posit_dirstamp:
 	mkdir generated
-generated/posit.h: src/templates/gen_posit.h src/templates/macros.h src/templates/main.h generated Makefile
+	touch generated/.posit_dirstamp
+generated/posit.h: src/templates/gen_posit.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,posit.h)
-generated/positgen.h: src/templates/gen_positgen.h src/templates/macros.h src/templates/main.h generated Makefile
+generated/positgen.h: src/templates/gen_positgen.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,positgen.h)
-generated/slowimpl.h: src/templates/gen_slowimpl.h src/templates/macros.h src/templates/main.h generated Makefile
+generated/slowimpl.h: src/templates/gen_slowimpl.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,slowimpl.h)
-generated/useslow.h: src/templates/gen_useslow.h src/templates/macros.h src/templates/main.h generated Makefile
+generated/useslow.h: src/templates/gen_useslow.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,useslow.h)
-generated/implement_posit.h: src/templates/gen_implement_posit.h src/templates/macros.h src/templates/main.h generated Makefile
+generated/implement_posit.h: src/templates/gen_implement_posit.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,implement_posit.h)
-generated/enumerate_implementations.h: src/templates/gen_enumerate_implementations.h src/templates/macros.h src/templates/main.h generated Makefile
+generated/enumerate_implementations.h: src/templates/gen_enumerate_implementations.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,enumerate_implementations.h)
-generated/useall.h: src/templates/gen_useall.h src/templates/macros.h src/templates/main.h generated Makefile
+generated/useall.h: src/templates/gen_useall.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,useall.h)
 
 bin_PROGRAMS =
