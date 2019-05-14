@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #ifndef POSIT_UNDEF
 
 #define posit_WITH_MPFR

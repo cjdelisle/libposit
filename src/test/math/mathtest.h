@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #include "positutil.h"
 
 #include <assert.h>

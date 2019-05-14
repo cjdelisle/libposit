@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #pragma once
 
 #include <mpfr.h>

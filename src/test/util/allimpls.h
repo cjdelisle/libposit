@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #pragma once
 
 typedef struct allimpls_impl_s allimpls_impl_t;
@@ -20,6 +21,8 @@ void allimpls_register();
 
 // returns non-zero if there was a disagreement between implementations
 int allimpls_had_disagreement();
+
+void allimpls_crash_on_disagree();
 
 #define ANYFUNC(__name__, __args__, __rett__, __argdef__) \
     typedef struct posit__GLUE(__name__, _impl_s) posit__GLUE(__name__, _impl_t); \

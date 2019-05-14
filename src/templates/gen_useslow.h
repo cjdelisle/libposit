@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 // this file generates defines which cause every function to use the slow implementation
 // after this, individual functions can be overridden.
 

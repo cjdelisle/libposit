@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #define POSIT_MKNAME(name) GLUE4(posit,POSIT_NBITS,_,name)
 #define POSIT_T GLUE3(posit,POSIT_NBITS, _t)
 #define POSIT_X2_T GLUE3(posit,POSIT_NBITS, x2_t)

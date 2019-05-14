@@ -1,12 +1,18 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #define posit_WITH_MPFR
 #include "posit.h"
 #define posit_WITH_MPFR
 #include "enumerate_implementations.h"
 
 static int g_had_disagreement;
+static int g_crash_on_disagree;
 
 int allimpls_had_disagreement() {
     return g_had_disagreement;
+}
+
+void allimpls_crash_on_disagree() {
+    g_crash_on_disagree = 1;
 }
 
 void allimpls_register() {
@@ -18,6 +24,7 @@ void allimpls_register() {
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define DEBUG(...) //printf(__VA_ARGS__)
 
@@ -54,6 +61,7 @@ static uint8_t* g_arg1p = (uint8_t*) &arg1;
                     for (int i = (int)(sizeof arg1) - 1; i >= 0; i-- ) { printf("%02x", _b[i]); } \
                 } \
                 printf("\n"); \
+                if (g_crash_on_disagree) { abort(); } \
             } \
         } \
         DEBUG("\n"); \

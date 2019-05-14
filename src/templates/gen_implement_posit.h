@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #define LITERAL_IFNDEF #ifndef
 #define LITERAL_DEFINE #define
 #define LITERAL_ENDIF #endif

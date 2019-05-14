@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 // this file overrides function names in order that the "all" version will be used
 // use this with testing to test all implementations against eachother
 #define LITERAL_INCLUDE #include

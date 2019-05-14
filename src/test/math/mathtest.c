@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #define posit_WITH_MPFR
 #include "posit.h"
 #include "useall.h"

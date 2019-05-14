@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 // The slow implementation implements *everything*
 // so rather than writing a huge implementation.h file, we generate it
 

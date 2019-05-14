@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #include "posit.h"
 #include "test/util/allimpls.h"
 
@@ -27,6 +28,7 @@ int main(int argc, const char** argv) {
     for (int i = 0; i < argc; i++) {
         if (!strcmp(argv[i], "--afl")) {
             afl = 1;
+            allimpls_crash_on_disagree();
         }
     }
     #ifdef __AFL_INIT

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #include "posit.h"
 
 #define posit_IMPLEMENTATION softposit
@@ -16,19 +17,20 @@ posit16_fromd_REGISTER_NAMED(convertDoubleToP16)
 posit32_fromd_REGISTER_NAMED(convertDoubleToP32)
 
 // from integer
-posit8_fromsi_REGISTER_NAMED(i32_to_p8)
-posit16_fromsi_REGISTER_NAMED(i32_to_p16)
-posit32_fromsi_REGISTER_NAMED(i32_to_p32)
+// https://gitlab.com/cerlane/SoftPosit/issues/30
+//posit8_fromsi_REGISTER_NAMED(i32_to_p8)
+//posit16_fromsi_REGISTER_NAMED(i32_to_p16)
+//posit32_fromsi_REGISTER_NAMED(i32_to_p32)
 
-posit8_fromui_REGISTER_NAMED(ui32_to_p8)
-posit16_fromui_REGISTER_NAMED(ui32_to_p16)
-posit32_fromui_REGISTER_NAMED(ui32_to_p32)
+//posit8_fromui_REGISTER_NAMED(ui32_to_p8)
+//posit16_fromui_REGISTER_NAMED(ui32_to_p16)
+//posit32_fromui_REGISTER_NAMED(ui32_to_p32)
 
 posit8_fromsl_REGISTER_NAMED(i64_to_p8)
 posit16_fromsl_REGISTER_NAMED(i64_to_p16)
 posit32_fromsl_REGISTER_NAMED(i64_to_p32)
 
-posit8_fromul_REGISTER_NAMED(ui64_to_p8)
+//posit8_fromul_REGISTER_NAMED(ui64_to_p8)
 posit16_fromul_REGISTER_NAMED(ui64_to_p16)
 posit32_fromul_REGISTER_NAMED(ui64_to_p32)
 
@@ -69,7 +71,7 @@ posit32_sub_REGISTER_NAMED(p32_sub)
 
 posit8_mul_REGISTER_NAMED(p8_mul)
 posit16_mul_REGISTER_NAMED(p16_mul)
-posit32_mul_REGISTER_NAMED(p32_mul)
+//posit32_mul_REGISTER_NAMED(p32_mul) // https://gitlab.com/cerlane/SoftPosit/issues/31
 
 
 posit8_div_REGISTER_NAMED(p8_div)

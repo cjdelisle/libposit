@@ -1,4 +1,6 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 LITERAL(/)*
+SPDX-License-Identifier: MIT OR BSD-3-Clause
 This file is auto-generated from src/templates/gen_posit.h
 Please only edit files inside of src/templates/
 *LITERAL(/)

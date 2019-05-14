@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT OR BSD-3-Clause
 #ifndef POSIT_TEST_H
 #define POSIT_TEST_H
     #include <mpfr.h>
