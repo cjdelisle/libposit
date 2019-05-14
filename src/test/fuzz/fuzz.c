@@ -35,7 +35,7 @@ int main(int argc, const char** argv) {
         __AFL_INIT();
     #endif
     if (afl) {
-        read(STDIN_FILENO, &buf, sizeof buf);
+        if (read(STDIN_FILENO, &buf, sizeof buf)) { /*warn unused result*/ }
     } else {
         int seed = time(NULL);
         srand(seed);
