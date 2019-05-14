@@ -17,18 +17,9 @@ posit16_fromd_REGISTER_NAMED(convertDoubleToP16)
 posit32_fromd_REGISTER_NAMED(convertDoubleToP32)
 
 // from integer
-// https://gitlab.com/cerlane/SoftPosit/issues/30
-//posit8_fromsi_REGISTER_NAMED(i32_to_p8)
-//posit16_fromsi_REGISTER_NAMED(i32_to_p16)
-//posit32_fromsi_REGISTER_NAMED(i32_to_p32)
-
 //posit8_fromui_REGISTER_NAMED(ui32_to_p8)
 //posit16_fromui_REGISTER_NAMED(ui32_to_p16)
 //posit32_fromui_REGISTER_NAMED(ui32_to_p32)
-
-posit8_fromsl_REGISTER_NAMED(i64_to_p8)
-posit16_fromsl_REGISTER_NAMED(i64_to_p16)
-posit32_fromsl_REGISTER_NAMED(i64_to_p32)
 
 //posit8_fromul_REGISTER_NAMED(ui64_to_p8)
 posit16_fromul_REGISTER_NAMED(ui64_to_p16)

@@ -176,15 +176,9 @@ am_libposit_a_OBJECTS = src/libposit.$(OBJEXT) \
 	src/softposit/p16_sqrt.$(OBJEXT) \
 	src/softposit/p32_sqrt.$(OBJEXT) \
 	src/softposit/s_approxRecipSqrt_1Ks.$(OBJEXT) \
-	src/softposit/i32_to_p8.$(OBJEXT) \
-	src/softposit/i32_to_p16.$(OBJEXT) \
-	src/softposit/i32_to_p32.$(OBJEXT) \
 	src/softposit/ui32_to_p8.$(OBJEXT) \
 	src/softposit/ui32_to_p16.$(OBJEXT) \
 	src/softposit/ui32_to_p32.$(OBJEXT) \
-	src/softposit/i64_to_p8.$(OBJEXT) \
-	src/softposit/i64_to_p16.$(OBJEXT) \
-	src/softposit/i64_to_p32.$(OBJEXT) \
 	src/softposit/ui64_to_p8.$(OBJEXT) \
 	src/softposit/ui64_to_p16.$(OBJEXT) \
 	src/softposit/ui64_to_p32.$(OBJEXT) \
@@ -666,11 +660,8 @@ libposit_a_SOURCES = Makefile src/libposit.c src/slow/impl.h \
 	src/softposit/p32_div.c src/softposit/p8_sqrt.c \
 	src/softposit/p16_sqrt.c src/softposit/p32_sqrt.c \
 	src/softposit/s_approxRecipSqrt_1Ks.c \
-	src/softposit/i32_to_p8.c src/softposit/i32_to_p16.c \
-	src/softposit/i32_to_p32.c src/softposit/ui32_to_p8.c \
-	src/softposit/ui32_to_p16.c src/softposit/ui32_to_p32.c \
-	src/softposit/i64_to_p8.c src/softposit/i64_to_p16.c \
-	src/softposit/i64_to_p32.c src/softposit/ui64_to_p8.c \
+	src/softposit/ui32_to_p8.c src/softposit/ui32_to_p16.c \
+	src/softposit/ui32_to_p32.c src/softposit/ui64_to_p8.c \
 	src/softposit/ui64_to_p16.c src/softposit/ui64_to_p32.c \
 	src/softposit/p8_to_i32.c src/softposit/p16_to_i32.c \
 	src/softposit/p32_to_i32.c src/softposit/p8_to_ui32.c \
@@ -901,23 +892,11 @@ src/softposit/p32_sqrt.$(OBJEXT): src/softposit/$(am__dirstamp) \
 src/softposit/s_approxRecipSqrt_1Ks.$(OBJEXT):  \
 	src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
-src/softposit/i32_to_p8.$(OBJEXT): src/softposit/$(am__dirstamp) \
-	src/softposit/$(DEPDIR)/$(am__dirstamp)
-src/softposit/i32_to_p16.$(OBJEXT): src/softposit/$(am__dirstamp) \
-	src/softposit/$(DEPDIR)/$(am__dirstamp)
-src/softposit/i32_to_p32.$(OBJEXT): src/softposit/$(am__dirstamp) \
-	src/softposit/$(DEPDIR)/$(am__dirstamp)
 src/softposit/ui32_to_p8.$(OBJEXT): src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
 src/softposit/ui32_to_p16.$(OBJEXT): src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
 src/softposit/ui32_to_p32.$(OBJEXT): src/softposit/$(am__dirstamp) \
-	src/softposit/$(DEPDIR)/$(am__dirstamp)
-src/softposit/i64_to_p8.$(OBJEXT): src/softposit/$(am__dirstamp) \
-	src/softposit/$(DEPDIR)/$(am__dirstamp)
-src/softposit/i64_to_p16.$(OBJEXT): src/softposit/$(am__dirstamp) \
-	src/softposit/$(DEPDIR)/$(am__dirstamp)
-src/softposit/i64_to_p32.$(OBJEXT): src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
 src/softposit/ui64_to_p8.$(OBJEXT): src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
@@ -1165,12 +1144,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/c_convertPosit32ToDec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/c_convertPosit8ToDec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/e_pow.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i32_to_p16.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i32_to_p32.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i32_to_p8.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i64_to_p16.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i64_to_p32.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/i64_to_p8.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/p16_add.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/p16_div.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/p16_mul.Po@am__quote@

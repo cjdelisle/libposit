@@ -96,15 +96,9 @@ libposit_a_SOURCES += \
 	src/softposit/p16_sqrt.c \
 	src/softposit/p32_sqrt.c \
 	src/softposit/s_approxRecipSqrt_1Ks.c \
-	src/softposit/i32_to_p8.c \
-	src/softposit/i32_to_p16.c \
-	src/softposit/i32_to_p32.c \
 	src/softposit/ui32_to_p8.c \
 	src/softposit/ui32_to_p16.c \
 	src/softposit/ui32_to_p32.c \
-	src/softposit/i64_to_p8.c \
-	src/softposit/i64_to_p16.c \
-	src/softposit/i64_to_p32.c \
 	src/softposit/ui64_to_p8.c \
 	src/softposit/ui64_to_p16.c \
 	src/softposit/ui64_to_p32.c \
