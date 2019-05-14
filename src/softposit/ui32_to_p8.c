@@ -50,8 +50,7 @@ posit8_t ui32_to_p8( uint32_t a ){
     uint_fast8_t uiA;
     uint_fast32_t mask = 0x40, fracA;
 
-    if (a==0x80000000) uiA = 0x80;
-    else if ( a > 48 )  uiA = 0x7F;
+    if ( a > 48 )  uiA = 0x7F;
     else if ( a < 2 ) uiA = (a << 6);
     else {
         fracA = a;

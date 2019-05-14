@@ -17,11 +17,11 @@ posit16_fromd_REGISTER_NAMED(convertDoubleToP16)
 posit32_fromd_REGISTER_NAMED(convertDoubleToP32)
 
 // from integer
-//posit8_fromui_REGISTER_NAMED(ui32_to_p8)
-//posit16_fromui_REGISTER_NAMED(ui32_to_p16)
-//posit32_fromui_REGISTER_NAMED(ui32_to_p32)
+posit8_fromui_REGISTER_NAMED(ui32_to_p8)
+posit16_fromui_REGISTER_NAMED(ui32_to_p16)
+posit32_fromui_REGISTER_NAMED(ui32_to_p32)
 
-//posit8_fromul_REGISTER_NAMED(ui64_to_p8)
+posit8_fromul_REGISTER_NAMED(ui64_to_p8)
 posit16_fromul_REGISTER_NAMED(ui64_to_p16)
 posit32_fromul_REGISTER_NAMED(ui64_to_p32)
 

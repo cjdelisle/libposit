@@ -50,8 +50,7 @@ posit16_t ui64_to_p16( uint64_t a ) {
     uint_fast16_t uiA;
     uint_fast64_t expA, mask = 0x0000000002000000, fracA;
 
-    if (a==0x8000000000000000) uiA = 0x8000;
-    else if ( a > 0x0000000008000000 ) uiA = 0x7FFF;
+    if ( a > 0x0000000008000000 ) uiA = 0x7FFF;
     else if ( a > 0x0000000002FFFFFF ) uiA = 0x7FFE;
     else if ( a < 2 ) uiA = (a << 14);
     else {

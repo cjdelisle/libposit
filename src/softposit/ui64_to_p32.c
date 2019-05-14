@@ -51,10 +51,7 @@ posit32_t ui64_to_p32( uint64_t a ) {
 	uint_fast64_t mask = 0x8000000000000000, fracA;
 	uint_fast32_t expA;
 
-	//NaR
-	if (a == 0x8000000000000000)
-		uiA = 0x80000000;
-	else if ( a > 0xFFFBFFFFFFFFFBFF)//18445618173802707967
+	if ( a >= 0xfffc000000000000ull)
 		uiA = 0x7FFFC000; // 18446744073709552000
 	else if ( a < 0x2 )
 		uiA = (a << 30);
