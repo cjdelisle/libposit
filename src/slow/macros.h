@@ -37,7 +37,7 @@ static void POSIT_MKNAME(fini)(POSIT_MKNAME(Context_t)* ctx) {
     mpz_clear(ctx->i);
 }
 
-POSIT_T POSIT_MKNAME(fromMpz)(const mpz_t in) {
+POSIT_T POSIT_MKNAME(fromMpz)(mpz_t in) {
     uint8_t buf[192];
     _Static_assert(sizeof(POSIT_T) < 96, "");
     assert((mpz_sizeinbase(in, 16) + 2) < 192);
@@ -160,19 +160,31 @@ POSIT_MPFR_FUNC(POSIT_T, div, {
 })
 
 POSIT_MPFR_FUNC(int, cmp, {
-    if (mpfr_nan_p(ctx.fx)) { return -1; }
-    if (mpfr_nan_p(ctx.fy)) { return 1; }
-    out = mpfr_cmp(ctx.fx, ctx.fy);
+    if (mpfr_nan_p(ctx.fx)) {
+        out = -1;
+    } else if (mpfr_nan_p(ctx.fy)) {
+        out = 1;
+    } else {
+        out = mpfr_cmp(ctx.fx, ctx.fy);
+    }
 })
 POSIT_MPFR_FUNC(int, cmpabs, {
-    if (mpfr_nan_p(ctx.fx)) { return -1; }
-    if (mpfr_nan_p(ctx.fy)) { return 1; }
-    out = mpfr_cmpabs(ctx.fx, ctx.fy);
+    if (mpfr_nan_p(ctx.fx)) {
+        out = -1;
+    } else if (mpfr_nan_p(ctx.fy)) {
+        out = 1;
+    } else {
+        out = mpfr_cmpabs(ctx.fx, ctx.fy);
+    }
 })
-POSIT_MPFR_FUNC(bool, equals, {
-    if (mpfr_nan_p(ctx.fx)) { return 0; }
-    if (mpfr_nan_p(ctx.fy)) { return 0; }
-    out = mpfr_cmp(ctx.fx, ctx.fy) == 0;
+POSIT_MPFR_FUNC(int, equals, {
+    if (mpfr_nan_p(ctx.fx)) {
+        out = 0;
+    } else if (mpfr_nan_p(ctx.fy)) {
+        out = 0;
+    } else {
+        out = (mpfr_cmp(ctx.fx, ctx.fy) == 0);
+    }
 })
 
 POSIT_MPFR_1FUNC(POSIT_T, sqrt, {

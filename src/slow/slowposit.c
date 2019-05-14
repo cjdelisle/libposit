@@ -7,6 +7,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include "impl.h"
+
 #define POSIT_IMPL slow
 
 char* posit8_debug_slow(char* buf, posit8_t x) {
