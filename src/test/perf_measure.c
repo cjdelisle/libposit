@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT OR BSD-3-Clause
+#define posit_WITH_MPFR
 #include "posit.h"
 #include "test/util/allimpls.h"
 
@@ -29,6 +30,8 @@ typedef struct Data_s {
 
         long double ld[DATA_MAX*2];
     };
+    mpz_t mpz;
+    mpfr_t mpfr;
     struct timeval tv;
     const char* bestimpl;
     uint64_t besttime;
@@ -41,6 +44,9 @@ typedef struct Data_s {
 #define GLUE(x,y) _GLUE(x,y)
 #define _GLUE(x,y) x##y
 
+#define FOREACH(__op__,__name__) \
+    __op__(8,__name__) __op__(16,__name__) __op__(32,__name__) __op__(64,__name__)
+
 #define FROM(__width__,__name__,__type__) \
     static inline void GLUE4(measure_posit,__width__,_from,__name__)(Data_t* d, int i, \
         GLUE3(posit,__width__,_t) (*impl)(__type__ x)) { impl(d->__name__[i]); }
@@ -51,10 +57,8 @@ typedef struct Data_s {
     FROM(__width__,__name__,__type__)
 
 #define TOFROM_EACH(__name__,__type__) \
-    TOFROM(8,__name__,__type__) \
-    TOFROM(16,__name__,__type__) \
-    TOFROM(32,__name__,__type__) \
-    TOFROM(64,__name__,__type__)
+    TOFROM(8,__name__,__type__) TOFROM(16,__name__,__type__) \
+    TOFROM(32,__name__,__type__) TOFROM(64,__name__,__type__)
 
 TOFROM_EACH(ul,uint64_t)
 TOFROM_EACH(sl,int64_t)
@@ -84,31 +88,95 @@ FROM(64,p8,posit8_t)
     static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
         GLUE3(posit,__width__,_t) (*impl)(GLUE3(posit,__width__,_t) x, GLUE3(posit,__width__,_t) y)) { \
             impl(d->GLUE(p,__width__)[i], d->GLUE(p,__width__)[i+DATA_OFFSET]); }
-#define MATH2_EACH(__name__) \
-    MATH2(8,__name__) \
-    MATH2(16,__name__) \
-    MATH2(32,__name__) \
-    MATH2(64,__name__)
-MATH2_EACH(add)
-MATH2_EACH(sub)
-MATH2_EACH(mul)
-MATH2_EACH(div)
+FOREACH(MATH2, add)
+FOREACH(MATH2, sub)
+FOREACH(MATH2, mul)
+FOREACH(MATH2, div)
+
+#define MATH2_EXACT(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        GLUE3(posit,__width__,x2_t) (*impl)(GLUE3(posit,__width__,_t) x, GLUE3(posit,__width__,_t) y)) { \
+            impl(d->GLUE(p,__width__)[i], d->GLUE(p,__width__)[i+DATA_OFFSET]); }
+FOREACH(MATH2_EXACT, add_exact)
+FOREACH(MATH2_EXACT, sub_exact)
+
+#define MATH2_PROMOTE(__width__,__width2__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        GLUE3(posit,__width2__,_t) (*impl)(GLUE3(posit,__width__,_t) x, GLUE3(posit,__width__,_t) y)) { \
+            impl(d->GLUE(p,__width__)[i], d->GLUE(p,__width__)[i+DATA_OFFSET]); }
+#define MATH2_PROMOTE_EACH(__name__) \
+    MATH2_PROMOTE(8,16,__name__) MATH2_PROMOTE(16,32,__name__) \
+    MATH2_PROMOTE(32,64,__name__) MATH2_PROMOTE(64,128,__name__)
+MATH2_PROMOTE_EACH(mul_promote)
+MATH2_PROMOTE_EACH(div_promote)
+
+#define INT2(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        int (*impl)(GLUE3(posit,__width__,_t) x, GLUE3(posit,__width__,_t) y)) { \
+            impl(d->GLUE(p,__width__)[i], d->GLUE(p,__width__)[i+DATA_OFFSET]); }
+FOREACH(INT2, cmp)
+FOREACH(INT2, cmpabs)
+FOREACH(INT2, equals)
 
 #define MATH1(__width__,__name__) \
     static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
         GLUE3(posit,__width__,_t) (*impl)(GLUE3(posit,__width__,_t) x)) { \
             impl(d->GLUE(p,__width__)[i]); }
-#define MATH1_EACH(__name__) \
-    MATH1(8,__name__) \
-    MATH1(16,__name__) \
-    MATH1(32,__name__) \
-    MATH1(64,__name__)
-MATH1_EACH(exp)
-MATH1_EACH(log)
-MATH1_EACH(abs)
-MATH1_EACH(sqrt)
-MATH1_EACH(fract)
+FOREACH(MATH1, exp)
+FOREACH(MATH1, log)
+FOREACH(MATH1, abs)
+FOREACH(MATH1, sqrt)
+FOREACH(MATH1, fract)
 
+#define INT1(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        int32_t (*impl)(GLUE3(posit,__width__,_t) x)) { impl(d->GLUE(p,__width__)[i]); }
+FOREACH(INT1, iexp)
+
+#define TOMPZ(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        void (*impl)(mpz_t mpz, GLUE3(posit,__width__,_t) x)) { \
+            impl(d->mpz, d->GLUE(p,__width__)[i]); }
+FOREACH(TOMPZ, toMpz)
+
+#define FROMMPZ(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        GLUE3(posit,__width__,_t) (*impl)(mpz_t mpz)) { impl(d->mpz); }
+FOREACH(FROMMPZ, fromMpz)
+
+#define TOMPFR(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        void (*impl)(mpfr_t mpfr, GLUE3(posit,__width__,_t) x)) { \
+            impl(d->mpfr, d->GLUE(p,__width__)[i]); }
+FOREACH(TOMPFR, toMpfr)
+
+#define FROMMPFR(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        GLUE3(posit,__width__,_t) (*impl)(mpfr_t mpfr)) { impl(d->mpfr); }
+FOREACH(FROMMPFR, fromMpfr)
+
+#define MPZ_TO_MPFR(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        int (*impl)(mpfr_t mpfr, mpz_t mpz)) { impl(d->mpfr, d->mpz); }
+FOREACH(MPZ_TO_MPFR, mpzToMpfr)
+
+#define MPFR_TO_MPZ(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        int (*impl)(mpz_t mpz, mpfr_t mpfr)) { impl(d->mpz, d->mpfr); }
+FOREACH(MPFR_TO_MPZ, mpzFromMpfr)
+
+#define DEBUG(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        char* (*impl)(char* buf, GLUE3(posit,__width__,_t) x)) { \
+            char buf[GLUE3(posit,__width__,_debug_SIZE)]; \
+            impl(buf, d->GLUE(p,__width__)[i]); }
+FOREACH(DEBUG, debug)
+
+#define SHIFT(__width__,__name__) \
+    static inline void GLUE4(measure_posit,__width__,_,__name__)(Data_t* d, int i, \
+        GLUE3(posit,__width__,_t) (*impl)(GLUE3(posit,__width__,_t) x, int32_t y)) { \
+            impl(d->GLUE(p,__width__)[i], d->shorts[i]); }
+FOREACH(SHIFT, shift)
 
 static inline void time_start(Data_t* d) {
     gettimeofday(&d->tv,(struct timezone *) 0);
@@ -159,6 +227,10 @@ int main() {
     Data_t data;
     for (int i = 0; i < (int)sizeof data / 2; i++) { data.shorts[i] = rand(); }
 
+    mpz_init_set_ui(data.mpz, (unsigned long) data.ul);
+    mpfr_init2(data.mpfr, 128);
+    mpfr_set_ld(data.mpfr, data.ld[0], MPFR_RNDZ);
+
     allimpls_register();
 
     allimpls_func_t* f = g_posit_functions;
@@ -176,10 +248,32 @@ int main() {
             MEASURE_ALL(sqrt)
             MEASURE_ALL(fract)
 
+            MEASURE_ALL(iexp)
+
             MEASURE_ALL(add)
             MEASURE_ALL(sub)
             MEASURE_ALL(mul)
             MEASURE_ALL(div)
+
+            MEASURE_ALL(add_exact)
+            MEASURE_ALL(sub_exact)
+
+            MEASURE_ALL(mul_promote)
+            MEASURE_ALL(div_promote)
+
+            MEASURE_ALL(cmp)
+            MEASURE_ALL(cmpabs)
+            MEASURE_ALL(equals)
+
+            MEASURE_ALL(toMpz)
+            MEASURE_ALL(fromMpz)
+            MEASURE_ALL(toMpfr)
+            MEASURE_ALL(fromMpfr)
+            MEASURE_ALL(mpzToMpfr)
+            MEASURE_ALL(mpzFromMpfr)
+
+            MEASURE_ALL(debug)
+            MEASURE_ALL(shift)
 
             MEASURE_TOFROM(ul)
             MEASURE_TOFROM(sl)
@@ -214,4 +308,7 @@ int main() {
         }
         f = f->next;
     }
+
+    mpz_clear(data.mpz);
+    mpfr_clear(data.mpfr);
 }
