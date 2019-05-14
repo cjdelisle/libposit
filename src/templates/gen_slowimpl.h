@@ -13,10 +13,8 @@ LITERAL_DEFINE posit_WITH_MPFR
 
 LITERAL_INCLUDE "implement_posit.h"
 
-#define posit_FUNC(__name__, __args__, __rett__, __argdef__) \
-    GLUE(__name__, _REGISTER_NAMED)(GLUE(__name__,_slowimpl))
-#define posit_VFUNC(__name__, __args__, __argdef__) \
-    GLUE(__name__, _REGISTER_NAMED)(GLUE(__name__,_slowimpl))
+#define posit_FUNC(__name__, __args__, __rett__, __argdef__) GLUE(__name__, _REGISTER)
+#define posit_VFUNC(__name__, __args__, __argdef__) GLUE(__name__, _REGISTER)
 
 #include "templates/main.h"
 

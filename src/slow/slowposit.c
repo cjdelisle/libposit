@@ -7,21 +7,21 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define POSIT_IMPL slowimpl
+#define POSIT_IMPL slow
 
-char* posit8_debug_slowimpl(char* buf, posit8_t x) {
+char* posit8_debug_slow(char* buf, posit8_t x) {
     snprintf(buf, posit8_debug_SIZE, "8.0x%02x", x.v);
     return buf;
 }
-char* posit16_debug_slowimpl(char* buf, posit16_t x) {
+char* posit16_debug_slow(char* buf, posit16_t x) {
     snprintf(buf, posit16_debug_SIZE, "16.1x%04x", x.v);
     return buf;
 }
-char* posit32_debug_slowimpl(char* buf, posit32_t x) {
+char* posit32_debug_slow(char* buf, posit32_t x) {
     snprintf(buf, posit32_debug_SIZE, "32.2x%08x", x.v);
     return buf;
 }
-char* posit64_debug_slowimpl(char* buf, posit64_t x) {
+char* posit64_debug_slow(char* buf, posit64_t x) {
     snprintf(buf, posit64_debug_SIZE, "64.3x%016llx", (unsigned long long)x.v);
     return buf;
 }

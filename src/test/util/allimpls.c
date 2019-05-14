@@ -35,14 +35,14 @@ static uint8_t* g_arg1p = (uint8_t*) &arg1;
     __rett__ posit__GLUE(__name__,_all)__argdef__ { \
         allimpls_register(); \
         DEBUG("running %s", STRING(__name__)); \
-        __rett__ posit__GLUE(__name__,_slowimpl)__argdef__; \
-        __rett__ slowout = posit__GLUE(__name__,_slowimpl)__args__; \
+        __rett__ posit__GLUE(__name__,_slow)__argdef__; \
+        __rett__ slowout = posit__GLUE(__name__,_slow)__args__; \
         allimpls_func_t* func = &posit__GLUE3(g_, __name__, _func); \
         allimpls_impl_t* impl = func->impls; \
         for (; impl; impl = impl->next) { \
             DEBUG(" %s", impl->name); \
             posit__GLUE(__name__, _impl_t)* realimpl = (posit__GLUE(__name__, _impl_t)*) impl; \
-            if (realimpl->call == posit__GLUE(__name__,_slowimpl)) { continue; } \
+            if (realimpl->call == posit__GLUE(__name__,_slow)) { continue; } \
             __rett__ implout = realimpl->call __args__; \
             if (memcmp(&implout, &slowout, sizeof(__rett__))) { \
                 g_had_disagreement = 1; \

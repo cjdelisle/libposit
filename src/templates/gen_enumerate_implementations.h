@@ -30,7 +30,9 @@ LITERAL_DEFINE CURRENT_FUNCTION NULL
         };LITERAL(\)LITERAL(\n)\
         posit__GLUE4(g_,__name__,posit_IMPLEMENTATION,_impl).impl.next = GLUE3(g_, __name__, _func).impls;LITERAL(\)LITERAL(\n)\
         GLUE3(g_, __name__, _func).impls = &posit__GLUE4(g_,__name__,posit_IMPLEMENTATION,_impl).impl;LITERAL(\)LITERAL(\n)\
-        LITERAL(\n)
+        LITERAL(\n) \
+    LITERAL_DEFINE GLUE(__name__,_REGISTER)LITERAL(\)LITERAL(\n)\
+        GLUE(__name__,_REGISTER_NAMED)(posit__GLUE3(__name__,_,posit_IMPLEMENTATION))
 
 LITERAL_DEFINE STRING(x) _STRING(x)
 LITERAL_DEFINE _STRING(x) #x
