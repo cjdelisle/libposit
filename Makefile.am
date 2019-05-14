@@ -127,6 +127,14 @@ libposit_a_SOURCES += \
 	src/softposit/p32_to_p16.c
 src/softposit/e_pow.c: generated/posit.h generated/implement_posit.h
 
+# cjd impl
+libposit_a_SOURCES += \
+	src/cjd/impl.h \
+	src/cjd/impl.c
+src/cjd/impl.c: generated/posit.h generated/implement_posit.h
+
+## Add more implementations just above this line
+
 lib_LIBRARIES += libtestutil.a
 libtestutil_a_SOURCES = Makefile \
 	src/test/util/allimpls.c \

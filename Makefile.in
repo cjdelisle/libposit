@@ -204,7 +204,7 @@ am_libposit_a_OBJECTS = src/libposit.$(OBJEXT) \
 	src/softposit/p16_to_p8.$(OBJEXT) \
 	src/softposit/p16_to_p32.$(OBJEXT) \
 	src/softposit/p32_to_p8.$(OBJEXT) \
-	src/softposit/p32_to_p16.$(OBJEXT)
+	src/softposit/p32_to_p16.$(OBJEXT) src/cjd/impl.$(OBJEXT)
 libposit_a_OBJECTS = $(am_libposit_a_OBJECTS)
 libtestutil_a_AR = $(AR) $(ARFLAGS)
 libtestutil_a_LIBADD =
@@ -633,6 +633,8 @@ lib_LIBRARIES = libposit.a libtestutil.a
 # slow impl
 
 # softposit impl
+
+# cjd impl
 libposit_a_SOURCES = Makefile src/libposit.c src/slow/impl.h \
 	src/slow/macros.h src/slow/mpz_macros.h src/slow/slowposit.c \
 	src/softposit/impl.h src/softposit/softposit.h \
@@ -669,7 +671,8 @@ libposit_a_SOURCES = Makefile src/libposit.c src/slow/impl.h \
 	src/softposit/p16_to_ui64.c src/softposit/p32_to_ui64.c \
 	src/softposit/p8_to_p16.c src/softposit/p8_to_p32.c \
 	src/softposit/p16_to_p8.c src/softposit/p16_to_p32.c \
-	src/softposit/p32_to_p8.c src/softposit/p32_to_p16.c
+	src/softposit/p32_to_p8.c src/softposit/p32_to_p16.c \
+	src/cjd/impl.h src/cjd/impl.c
 libtestutil_a_SOURCES = Makefile \
 	src/test/util/allimpls.c \
 	src/test/util/allimpls.h
@@ -945,6 +948,14 @@ src/softposit/p32_to_p8.$(OBJEXT): src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
 src/softposit/p32_to_p16.$(OBJEXT): src/softposit/$(am__dirstamp) \
 	src/softposit/$(DEPDIR)/$(am__dirstamp)
+src/cjd/$(am__dirstamp):
+	@$(MKDIR_P) src/cjd
+	@: > src/cjd/$(am__dirstamp)
+src/cjd/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/cjd/$(DEPDIR)
+	@: > src/cjd/$(DEPDIR)/$(am__dirstamp)
+src/cjd/impl.$(OBJEXT): src/cjd/$(am__dirstamp) \
+	src/cjd/$(DEPDIR)/$(am__dirstamp)
 
 libposit.a: $(libposit_a_OBJECTS) $(libposit_a_DEPENDENCIES) $(EXTRA_libposit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libposit.a
@@ -1107,6 +1118,7 @@ tests/universal_posit8.test$(EXEEXT): $(tests_universal_posit8_test_OBJECTS) $(t
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f src/*.$(OBJEXT)
+	-rm -f src/cjd/*.$(OBJEXT)
 	-rm -f src/slow/*.$(OBJEXT)
 	-rm -f src/softposit/*.$(OBJEXT)
 	-rm -f src/test/*.$(OBJEXT)
@@ -1121,6 +1133,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/libposit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cjd/$(DEPDIR)/impl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/slow/$(DEPDIR)/slowposit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/c_convertDecToPosit16.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/softposit/$(DEPDIR)/c_convertDecToPosit32.Po@am__quote@
@@ -1624,6 +1637,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f src/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/$(am__dirstamp)
+	-rm -f src/cjd/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/cjd/$(am__dirstamp)
 	-rm -f src/slow/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/slow/$(am__dirstamp)
 	-rm -f src/softposit/$(DEPDIR)/$(am__dirstamp)
@@ -1654,7 +1669,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-libLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf src/$(DEPDIR) src/slow/$(DEPDIR) src/softposit/$(DEPDIR) src/test/$(DEPDIR) src/test/convert/$(DEPDIR) src/test/fuzz/$(DEPDIR) src/test/math/$(DEPDIR) src/test/rounding/$(DEPDIR) src/test/universal/$(DEPDIR) src/test/util/$(DEPDIR)
+	-rm -rf src/$(DEPDIR) src/cjd/$(DEPDIR) src/slow/$(DEPDIR) src/softposit/$(DEPDIR) src/test/$(DEPDIR) src/test/convert/$(DEPDIR) src/test/fuzz/$(DEPDIR) src/test/math/$(DEPDIR) src/test/rounding/$(DEPDIR) src/test/universal/$(DEPDIR) src/test/util/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -1702,7 +1717,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf src/$(DEPDIR) src/slow/$(DEPDIR) src/softposit/$(DEPDIR) src/test/$(DEPDIR) src/test/convert/$(DEPDIR) src/test/fuzz/$(DEPDIR) src/test/math/$(DEPDIR) src/test/rounding/$(DEPDIR) src/test/universal/$(DEPDIR) src/test/util/$(DEPDIR)
+	-rm -rf src/$(DEPDIR) src/cjd/$(DEPDIR) src/slow/$(DEPDIR) src/softposit/$(DEPDIR) src/test/$(DEPDIR) src/test/convert/$(DEPDIR) src/test/fuzz/$(DEPDIR) src/test/math/$(DEPDIR) src/test/rounding/$(DEPDIR) src/test/universal/$(DEPDIR) src/test/util/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1776,6 +1791,7 @@ src/libposit.c: generated/posit.h \
 	generated/implement_posit.h
 src/slow/slowposit.c: generated/posit.h generated/implement_posit.h
 src/softposit/e_pow.c: generated/posit.h generated/implement_posit.h
+src/cjd/impl.c: generated/posit.h generated/implement_posit.h
 src/test/util/allimpls.c: generated/posit.h generated/enumerate_implementations.h generated/useall.h
 src/test/universal/posit8.c: generated/posit.h
 src/test/universal/posit16.c: generated/posit.h
