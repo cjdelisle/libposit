@@ -12,21 +12,77 @@ AC_PROG_CC
 AC_PROG_RANLIB
 AC_PROG_AWK
 AC_PROG_SED
+PKG_PROG_PKG_CONFIG
+m4_pattern_forbid([^PKG_[A-Z_]+$], [missing some pkg-config macros (pkg-config package)])
 
-#PKG_CHECK_MODULES([gmp], [libgmp], [], [
-#    AC_MSG_ERROR([
-#        libgmp not found, gmp is required to build libposit.
-#    ])
-#])
+gmplibs="-lmpfr -lgmp"
+gmpinc=
 
-## gmp doesn't ship with a .pc file which makes this more difficult
-## But since mpfr depends on gmp and (as of this writing) includes
-## gmp in it's link line, we can just depend on mpfr only.
-PKG_CHECK_MODULES([mpfr], [mpfr], [], [
-    AC_MSG_ERROR([
-        libmpfr not found, mpfr is required to build libposit.
-    ])
-])
+AC_ARG_WITH(gmp,
+[AS_HELP_STRING([--with-gmp=PATH],
+		[Specify directory for MPFR.
+		 Same as --with-gmp-include=PATH/include and --with-gmp-lib=PATH/lib])])
+AC_ARG_WITH(gmp-include,
+[AS_HELP_STRING([--with-gmp-include=PATH],
+		[Specify directory for MPFR header files])])
+AC_ARG_WITH(gmp-lib,
+[AS_HELP_STRING([--with-gmp-lib=PATH],
+		[Specify directory for MPFR library])])
+if test "x$with_gmp" != x; then
+  gmplibs="-L$with_gmp/lib $gmplibs"
+  gmpinc="-I$with_gmp/include $gmpinc"
+fi
+if test "x$with_gmp_include" != x; then
+  gmpinc="-I$with_gmp_include $gmpinc"
+fi
+if test "x$with_gmp_lib" != x; then
+  gmplibs="-L$with_gmp_lib $gmplibs"
+fi
+
+AC_ARG_WITH(mpfr,
+[AS_HELP_STRING([--with-mpfr=PATH],
+		[Specify directory for MPFR.
+		 Same as --with-mpfr-include=PATH/include and --with-mpfr-lib=PATH/lib])])
+AC_ARG_WITH(mpfr-include,
+[AS_HELP_STRING([--with-mpfr-include=PATH],
+		[Specify directory for MPFR header files])])
+AC_ARG_WITH(mpfr-lib,
+[AS_HELP_STRING([--with-mpfr-lib=PATH],
+		[Specify directory for MPFR library])])
+if test "x$with_mpfr" != x; then
+  gmplibs="-L$with_mpfr/lib $gmplibs"
+  gmpinc="-I$with_mpfr/include $gmpinc"
+fi
+if test "x$with_mpfr_include" != x; then
+  gmpinc="-I$with_mpfr_include $gmpinc"
+fi
+if test "x$with_mpfr_lib" != x; then
+  gmplibs="-L$with_mpfr_lib $gmplibs"
+fi
+
+AC_MSG_CHECKING([for gmp/mpfr])
+saved_LIBS="$LIBS"
+LIBS="$LIBS $gmplibs"
+AC_TRY_LINK([
+    #include <gmp.h>
+    #include <mpfr.h>
+],[
+    mpfr_t n;
+    mpz_t x;
+    mpfr_init2(n, 128);
+    mpz_init(x);
+],
+    [ AC_MSG_RESULT([yes]) ],
+    [
+        AC_MSG_RESULT([no])
+        AC_MSG_ERROR([
+            libmpfr and/or libgmp not found, mpfr and gmp are required to build libposit.
+            Make sure libmpfr and libgmp are installed, if they're installed in a non-typical
+            location, use ./configure --help to see how you can specify that location.
+        ])
+    ]
+)
+LIBS="$saved_LIBS"
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdint.h stdbool.h])
@@ -43,5 +99,17 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
 AC_TYPE_UINT8_T
 
-AC_CONFIG_FILES([Makefile])
+# set pkgconfigdir, allow override
+AC_ARG_WITH([pkgconfigdir],
+    AS_HELP_STRING([--with-pkgconfigdir=PATH],
+        [Path to the pkgconfig directory [[LIBDIR/pkgconfig]]]),
+    [pkgconfigdir="$withval"],
+    [pkgconfigdir='${libdir}/pkgconfig'])
+AC_SUBST([pkgconfigdir])
+AC_SUBST(gmplibs)
+AC_SUBST(gmpinc)
+
+AC_CONFIG_FILES([ \
+    Makefile \
+    src/libposit.pc ])
 AC_OUTPUT

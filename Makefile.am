@@ -7,9 +7,9 @@ CFLAGS = \
 	-Wno-unused-parameter \
 	-std=c11 \
 	-g \
-	-O0 -march=native \
+	-O3 -march=native \
 	-Werror -Igenerated -Isrc \
-	${mpfr_CFLAGS}
+	${gmpinc}
 
 #-fsanitize=address -lasan
 
@@ -39,7 +39,9 @@ generated/enumerate_implementations.h: src/templates/gen_enumerate_implementatio
 generated/useall.h: src/templates/gen_useall.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,useall.h)
 
-bin_PROGRAMS =
+pkgconfig_DATA = src/libposit.pc
+include_HEADERS = generated/posit.h
+check_PROGRAMS =
 lib_LIBRARIES =
 
 lib_LIBRARIES += libposit.a
@@ -136,69 +138,69 @@ libtestutil_a_SOURCES = Makefile \
 	src/test/util/allimpls.h
 src/test/util/allimpls.c: generated/posit.h generated/enumerate_implementations.h generated/useall.h
 
-bin_PROGRAMS += tests/universal_posit8.test
+check_PROGRAMS += tests/universal_posit8.test
 tests_universal_posit8_test_SOURCES = Makefile \
 	src/test/universal/posit8.c
 src/test/universal/posit8.c: generated/posit.h
-tests_universal_posit8_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
+tests_universal_posit8_test_LDADD = libtestutil.a libposit.a ${gmplibs} -lm
 
-bin_PROGRAMS += tests/universal_posit16.test
+check_PROGRAMS += tests/universal_posit16.test
 tests_universal_posit16_test_SOURCES = Makefile \
 	src/test/universal/posit16.c
 src/test/universal/posit16.c: generated/posit.h
-tests_universal_posit16_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
+tests_universal_posit16_test_LDADD = libtestutil.a libposit.a ${gmplibs} -lm
 
-bin_PROGRAMS += tests/universal_posit32.test
+check_PROGRAMS += tests/universal_posit32.test
 tests_universal_posit32_test_SOURCES = Makefile \
 	src/test/universal/posit32.c
 src/test/universal/posit32.c: generated/posit.h
-tests_universal_posit32_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
+tests_universal_posit32_test_LDADD = libtestutil.a libposit.a ${gmplibs} -lm
 
-bin_PROGRAMS += tests/universal_posit64.test
+check_PROGRAMS += tests/universal_posit64.test
 tests_universal_posit64_test_SOURCES = Makefile \
 	src/test/universal/posit64.c
 src/test/universal/posit64.c: generated/posit.h
-tests_universal_posit64_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS} -lm
+tests_universal_posit64_test_LDADD = libtestutil.a libposit.a ${gmplibs} -lm
 
-bin_PROGRAMS += tests/math.test
+check_PROGRAMS += tests/math.test
 tests_math_test_SOURCES = Makefile \
 	src/test/math/mathtest.c \
 	src/test/math/mathtest.h \
 	src/test/math/mathhdr.h
 src/test/math/mathtest.c: generated/posit.h
-tests_math_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_math_test_LDADD = libtestutil.a libposit.a ${gmplibs}
 
-bin_PROGRAMS += tests/rounding.test
+check_PROGRAMS += tests/rounding.test
 tests_rounding_test_SOURCES = Makefile \
 	src/slow/mpz_macros.h \
 	src/test/rounding/posit_macros_impl.h \
 	src/test/rounding/roundingtest.c
 src/test/rounding/roundingtest.c: generated/posit.h
-tests_rounding_test_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_rounding_test_LDADD = libtestutil.a libposit.a ${gmplibs}
 
-bin_PROGRAMS += tests/perf_measure
+check_PROGRAMS += tests/perf_measure
 tests_perf_measure_SOURCES = Makefile \
 	src/test/perf_measure.c
 src/test/perf_measure.c: generated/posit.h
-tests_perf_measure_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_perf_measure_LDADD = libtestutil.a libposit.a ${gmplibs}
 
-bin_PROGRAMS += tests/fuzz
+check_PROGRAMS += tests/fuzz
 tests_fuzz_SOURCES = Makefile \
 	src/test/fuzz/fuzz.c
 src/test/perf_measure.c: generated/posit.h
-tests_fuzz_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_fuzz_LDADD = libtestutil.a libposit.a ${gmplibs}
 
-bin_PROGRAMS += tests/convert_toint
+check_PROGRAMS += tests/convert_toint
 tests_convert_toint_SOURCES = Makefile \
 	src/test/convert/toint.c
 src/test/perf_measure.c: generated/posit.h
-tests_convert_toint_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_convert_toint_LDADD = libtestutil.a libposit.a ${gmplibs}
 
-bin_PROGRAMS += tests/rounding/findmiddle
+check_PROGRAMS += tests/rounding/findmiddle
 tests_rounding_findmiddle_SOURCES = Makefile \
 	src/test/rounding/findmiddle.c
 src/test/rounding/findmiddle.c: generated/posit.h
-tests_rounding_findmiddle_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_rounding_findmiddle_LDADD = libtestutil.a libposit.a ${gmplibs}
 
 TESTS= \
 	tests/rounding.test \

@@ -12,3 +12,4 @@
 /config.status
 /config.h
 /config.h.in~
+/src/libposit.pc

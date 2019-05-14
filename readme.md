@@ -161,20 +161,36 @@ posit functions, using the slow implementations where necessary.
 
 ## Compiling
 
-To compile libposit, you will need [libmpfr](https://www.mpfr.org).
+To compile libposit, you will need [libgmp](https://gmplib.org/) and [libmpfr](https://www.mpfr.org).
+
+### Ubuntu
+
+```
+apt install libgmp-dev libmpfr-dev
+./configure
+make
+sudo make install
+```
 
 ### Apple OSX
 
-1. Make sure you have [homebrew](https://brew.sh/) installed
-2. `brew install mpfr`
-3. `PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/ ./configure`
-4. `make`
+Make sure you have [homebrew](https://brew.sh/) installed first
+
+```
+brew install gmp mpfr
+./configure
+make
+sudo make install
+```
 
 ### Apline Linux
 
-1. `sudo apk add mpfr-dev gmp-dev`
-2. `mpfr_CFLAGS=" " mpfr_LIBS="-lmpfr -lgmp" ./configure`
-3. `make`
+```
+sudo apk add gmp-dev mpfr-dev
+./configure
+make
+sudo make install
+```
 
 ## Libposit API
 

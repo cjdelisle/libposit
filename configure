@@ -625,11 +625,12 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+gmpinc
+gmplibs
+pkgconfigdir
 EGREP
 GREP
 CPP
-mpfr_LIBS
-mpfr_CFLAGS
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
@@ -722,6 +723,13 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
+with_gmp
+with_gmp_include
+with_gmp_lib
+with_mpfr
+with_mpfr_include
+with_mpfr_lib
+with_pkgconfigdir
 '
       ac_precious_vars='build_alias
 host_alias
@@ -734,8 +742,6 @@ CPPFLAGS
 PKG_CONFIG
 PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
-mpfr_CFLAGS
-mpfr_LIBS
 CPP'
 
 
@@ -1358,6 +1364,23 @@ Optional Features:
   --disable-dependency-tracking
                           speeds up one-time build
 
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-gmp=PATH         Specify directory for MPFR. Same as
+                          --with-gmp-include=PATH/include and
+                          --with-gmp-lib=PATH/lib
+  --with-gmp-include=PATH Specify directory for MPFR header files
+  --with-gmp-lib=PATH     Specify directory for MPFR library
+  --with-mpfr=PATH        Specify directory for MPFR. Same as
+                          --with-mpfr-include=PATH/include and
+                          --with-mpfr-lib=PATH/lib
+  --with-mpfr-include=PATH
+                          Specify directory for MPFR header files
+  --with-mpfr-lib=PATH    Specify directory for MPFR library
+  --with-pkgconfigdir=PATH
+                          Path to the pkgconfig directory [[LIBDIR/pkgconfig]]
+
 Some influential environment variables:
   CC          C compiler command
   CFLAGS      C compiler flags
@@ -1371,8 +1394,6 @@ Some influential environment variables:
               directories to add to pkg-config's search path
   PKG_CONFIG_LIBDIR
               path overriding pkg-config's built-in search path
-  mpfr_CFLAGS C compiler flags for mpfr, overriding pkg-config
-  mpfr_LIBS   linker flags for mpfr, overriding pkg-config
   CPP         C preprocessor
 
 Use these variables to override the choices made by `configure' or to help
@@ -1492,6 +1513,52 @@ fi
   as_fn_set_status $ac_retval
 
 } # ac_fn_c_try_compile
+
+# ac_fn_c_try_link LINENO
+# -----------------------
+# Try to link conftest.$ac_ext, and return whether this succeeded.
+ac_fn_c_try_link ()
+{
+  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
+  rm -f conftest.$ac_objext conftest$ac_exeext
+  if { { ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
+$as_echo "$ac_try_echo"; } >&5
+  (eval "$ac_link") 2>conftest.err
+  ac_status=$?
+  if test -s conftest.err; then
+    grep -v '^ *+' conftest.err >conftest.er1
+    cat conftest.er1 >&5
+    mv -f conftest.er1 conftest.err
+  fi
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 test -x conftest$ac_exeext
+       }; then :
+  ac_retval=0
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_retval=1
+fi
+  # Delete the IPA/IPO (Inter Procedural Analysis/Optimization) information
+  # created by the PGI compiler (conftest_ipa8_conftest.oo), as it would
+  # interfere with the next link command; also delete a directory that is
+  # left behind by Apple's compiler.  We do this before executing the actions.
+  rm -rf conftest.dSYM conftest_ipa8_conftest.oo
+  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
+  as_fn_set_status $ac_retval
+
+} # ac_fn_c_try_link
 
 # ac_fn_c_try_cpp LINENO
 # ----------------------
@@ -4201,16 +4268,6 @@ $as_echo "$ac_cv_path_SED" >&6; }
   rm -f conftest.sed
 
 
-#PKG_CHECK_MODULES([gmp], [libgmp], [], [
-#    AC_MSG_ERROR([
-#        libgmp not found, gmp is required to build libposit.
-#    ])
-#])
-
-## gmp doesn't ship with a .pc file which makes this more difficult
-## But since mpfr depends on gmp and (as of this writing) includes
-## gmp in it's link line, we can just depend on mpfr only.
-
 
 
 
@@ -4331,87 +4388,112 @@ $as_echo "no" >&6; }
 	fi
 fi
 
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for mpfr" >&5
-$as_echo_n "checking for mpfr... " >&6; }
 
-if test -n "$mpfr_CFLAGS"; then
-    pkg_cv_mpfr_CFLAGS="$mpfr_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mpfr\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "mpfr") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_mpfr_CFLAGS=`$PKG_CONFIG --cflags "mpfr" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$mpfr_LIBS"; then
-    pkg_cv_mpfr_LIBS="$mpfr_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mpfr\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "mpfr") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_mpfr_LIBS=`$PKG_CONFIG --libs "mpfr" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
+gmplibs="-lmpfr -lgmp"
+gmpinc=
+
+
+# Check whether --with-gmp was given.
+if test "${with_gmp+set}" = set; then :
+  withval=$with_gmp;
 fi
 
 
-
-if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
+# Check whether --with-gmp-include was given.
+if test "${with_gmp_include+set}" = set; then :
+  withval=$with_gmp_include;
 fi
-        if test $_pkg_short_errors_supported = yes; then
-	        mpfr_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "mpfr" 2>&1`
-        else
-	        mpfr_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "mpfr" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$mpfr_PKG_ERRORS" >&5
 
 
-    as_fn_error $? "
-        libmpfr not found, mpfr is required to build libposit.
-    " "$LINENO" 5
+# Check whether --with-gmp-lib was given.
+if test "${with_gmp_lib+set}" = set; then :
+  withval=$with_gmp_lib;
+fi
 
-elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
+if test "x$with_gmp" != x; then
+  gmplibs="-L$with_gmp/lib $gmplibs"
+  gmpinc="-I$with_gmp/include $gmpinc"
+fi
+if test "x$with_gmp_include" != x; then
+  gmpinc="-I$with_gmp_include $gmpinc"
+fi
+if test "x$with_gmp_lib" != x; then
+  gmplibs="-L$with_gmp_lib $gmplibs"
+fi
 
-    as_fn_error $? "
-        libmpfr not found, mpfr is required to build libposit.
-    " "$LINENO" 5
 
-else
-	mpfr_CFLAGS=$pkg_cv_mpfr_CFLAGS
-	mpfr_LIBS=$pkg_cv_mpfr_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+# Check whether --with-mpfr was given.
+if test "${with_mpfr+set}" = set; then :
+  withval=$with_mpfr;
+fi
+
+
+# Check whether --with-mpfr-include was given.
+if test "${with_mpfr_include+set}" = set; then :
+  withval=$with_mpfr_include;
+fi
+
+
+# Check whether --with-mpfr-lib was given.
+if test "${with_mpfr_lib+set}" = set; then :
+  withval=$with_mpfr_lib;
+fi
+
+if test "x$with_mpfr" != x; then
+  gmplibs="-L$with_mpfr/lib $gmplibs"
+  gmpinc="-I$with_mpfr/include $gmpinc"
+fi
+if test "x$with_mpfr_include" != x; then
+  gmpinc="-I$with_mpfr_include $gmpinc"
+fi
+if test "x$with_mpfr_lib" != x; then
+  gmplibs="-L$with_mpfr_lib $gmplibs"
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for gmp/mpfr" >&5
+$as_echo_n "checking for gmp/mpfr... " >&6; }
+saved_LIBS="$LIBS"
+LIBS="$LIBS $gmplibs"
+
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+    #include <gmp.h>
+    #include <mpfr.h>
+
+int
+main ()
+{
+
+    mpfr_t n;
+    mpz_t x;
+    mpfr_init2(n, 128);
+    mpz_init(x);
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
+else
+
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+        as_fn_error $? "
+            libmpfr and/or libgmp not found, mpfr and gmp are required to build libposit.
+            Make sure libmpfr and libgmp are installed, if they're installed in a non-typical
+            location, use ./configure --help to see how you can specify that location.
+        " "$LINENO" 5
+
 
 fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS="$saved_LIBS"
 
 # Checks for header files.
-
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5052,7 +5134,20 @@ _ACEOF
   esac
 
 
-ac_config_files="$ac_config_files Makefile"
+# set pkgconfigdir, allow override
+
+# Check whether --with-pkgconfigdir was given.
+if test "${with_pkgconfigdir+set}" = set; then :
+  withval=$with_pkgconfigdir; pkgconfigdir="$withval"
+else
+  pkgconfigdir='${libdir}/pkgconfig'
+fi
+
+
+
+
+
+ac_config_files="$ac_config_files Makefile src/libposit.pc"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -5782,6 +5877,7 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "src/libposit.pc") CONFIG_FILES="$CONFIG_FILES src/libposit.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

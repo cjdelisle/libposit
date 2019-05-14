@@ -225,7 +225,7 @@ int main() {
     gettimeofday(&tv,(struct timezone *) 0);
     srand(tv.tv_usec);
     Data_t data;
-    for (int i = 0; i < (int)sizeof data / 2; i++) { data.shorts[i] = rand(); }
+    for (int i = 0; i < ((int)sizeof data.shorts) / 2; i++) { data.shorts[i] = rand(); }
 
     mpz_init_set_ui(data.mpz, (unsigned long) data.ul);
     mpfr_init2(data.mpfr, 128);
