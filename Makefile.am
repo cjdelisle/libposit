@@ -22,6 +22,7 @@ endef
 
 generated/.posit_dirstamp:
 	mkdir generated
+	mkdir generated/fuzz_outputs
 	touch generated/.posit_dirstamp
 generated/posit.h: src/templates/gen_posit.h src/templates/macros.h src/templates/main.h generated/.posit_dirstamp Makefile
 	$(call posit_preprocess,posit.h)
