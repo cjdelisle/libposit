@@ -4454,6 +4454,8 @@ fi
 $as_echo_n "checking for gmp/mpfr... " >&6; }
 saved_LIBS="$LIBS"
 LIBS="$LIBS $gmplibs"
+saved_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS $gmpinc"
 
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -4492,6 +4494,7 @@ fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS="$saved_LIBS"
+CFLAGS="$saved_CFLAGS"
 
 # Checks for header files.
 ac_ext=c

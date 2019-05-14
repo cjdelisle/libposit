@@ -63,6 +63,8 @@ fi
 AC_MSG_CHECKING([for gmp/mpfr])
 saved_LIBS="$LIBS"
 LIBS="$LIBS $gmplibs"
+saved_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS $gmpinc"
 AC_TRY_LINK([
     #include <gmp.h>
     #include <mpfr.h>
@@ -83,6 +85,7 @@ AC_TRY_LINK([
     ]
 )
 LIBS="$saved_LIBS"
+CFLAGS="$saved_CFLAGS"
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdint.h stdbool.h])

@@ -7,6 +7,6 @@ Name: libposit
 Description: Posit library
 Version: @VERSION@
 Libs: -L${libdir} -lposit
-Libs.private: -lmpfr -lgmp
-Requires.private: mpfr gmp
-Cflags: -I${includedir}
+Libs.private: @gmplibs@
+Requires.private:
+Cflags: -I${includedir} @gmpinc@
