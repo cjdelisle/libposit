@@ -46,7 +46,7 @@ posit32_toul_REGISTER_NAMED(p32_to_ui64)
 posit8_fromp16_REGISTER_NAMED(p16_to_p8)
 posit8_fromp32_REGISTER_NAMED(p32_to_p8)
 posit16_fromp8_REGISTER_NAMED(p8_to_p16)
-//posit16_fromp32_REGISTER_NAMED(p32_to_p16) // https://gitlab.com/cerlane/SoftPosit/issues/28
+posit16_fromp32_REGISTER_NAMED(p32_to_p16)
 posit32_fromp8_REGISTER_NAMED(p8_to_p32)
 posit32_fromp16_REGISTER_NAMED(p16_to_p32)
 

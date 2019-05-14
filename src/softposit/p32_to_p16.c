@@ -48,8 +48,8 @@ posit16_t p32_to_p16( posit32_t pA ){
 
 	union ui32_p32 uA;
 	union ui16_p16 uZ;
-	uint_fast32_t uiA, exp_frac32A;
-	uint_fast16_t tmp=0, regime, exp_frac=0;
+	uint_fast32_t uiA, tmp=0, exp_frac32A;
+	uint_fast16_t regime, exp_frac=0;
 	bool sign, regSA, bitsMore=0, bitNPlusOne=0;
 	int_fast16_t kA=0, regA;
 
