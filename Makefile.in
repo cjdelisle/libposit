@@ -92,7 +92,8 @@ bin_PROGRAMS = tests/universal_posit8.test$(EXEEXT) \
 	tests/universal_posit32.test$(EXEEXT) \
 	tests/universal_posit64.test$(EXEEXT) tests/math.test$(EXEEXT) \
 	tests/rounding.test$(EXEEXT) tests/perf_measure$(EXEEXT) \
-	tests/fuzz$(EXEEXT) tests/convert_toint$(EXEEXT)
+	tests/fuzz$(EXEEXT) tests/convert_toint$(EXEEXT) \
+	tests/rounding/findmiddle$(EXEEXT)
 TESTS = tests/rounding.test$(EXEEXT) tests/math.test$(EXEEXT) \
 	tests/universal_posit16.test$(EXEEXT) \
 	tests/universal_posit32.test$(EXEEXT) \
@@ -233,6 +234,12 @@ am_tests_rounding_test_OBJECTS =  \
 tests_rounding_test_OBJECTS = $(am_tests_rounding_test_OBJECTS)
 tests_rounding_test_DEPENDENCIES = libtestutil.a libposit.a \
 	$(am__DEPENDENCIES_1)
+am_tests_rounding_findmiddle_OBJECTS =  \
+	src/test/rounding/findmiddle.$(OBJEXT)
+tests_rounding_findmiddle_OBJECTS =  \
+	$(am_tests_rounding_findmiddle_OBJECTS)
+tests_rounding_findmiddle_DEPENDENCIES = libtestutil.a libposit.a \
+	$(am__DEPENDENCIES_1)
 am_tests_universal_posit16_test_OBJECTS =  \
 	src/test/universal/posit16.$(OBJEXT)
 tests_universal_posit16_test_OBJECTS =  \
@@ -289,6 +296,7 @@ SOURCES = $(libposit_a_SOURCES) $(libtestutil_a_SOURCES) \
 	$(tests_convert_toint_SOURCES) $(tests_fuzz_SOURCES) \
 	$(tests_math_test_SOURCES) $(tests_perf_measure_SOURCES) \
 	$(tests_rounding_test_SOURCES) \
+	$(tests_rounding_findmiddle_SOURCES) \
 	$(tests_universal_posit16_test_SOURCES) \
 	$(tests_universal_posit32_test_SOURCES) \
 	$(tests_universal_posit64_test_SOURCES) \
@@ -297,6 +305,7 @@ DIST_SOURCES = $(libposit_a_SOURCES) $(libtestutil_a_SOURCES) \
 	$(tests_convert_toint_SOURCES) $(tests_fuzz_SOURCES) \
 	$(tests_math_test_SOURCES) $(tests_perf_measure_SOURCES) \
 	$(tests_rounding_test_SOURCES) \
+	$(tests_rounding_findmiddle_SOURCES) \
 	$(tests_universal_posit16_test_SOURCES) \
 	$(tests_universal_posit32_test_SOURCES) \
 	$(tests_universal_posit64_test_SOURCES) \
@@ -717,6 +726,10 @@ tests_convert_toint_SOURCES = Makefile \
 	src/test/convert/toint.c
 
 tests_convert_toint_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+tests_rounding_findmiddle_SOURCES = Makefile \
+	src/test/rounding/findmiddle.c
+
+tests_rounding_findmiddle_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -1080,6 +1093,16 @@ src/test/rounding/roundingtest.$(OBJEXT):  \
 tests/rounding.test$(EXEEXT): $(tests_rounding_test_OBJECTS) $(tests_rounding_test_DEPENDENCIES) $(EXTRA_tests_rounding_test_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/rounding.test$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_rounding_test_OBJECTS) $(tests_rounding_test_LDADD) $(LIBS)
+src/test/rounding/findmiddle.$(OBJEXT):  \
+	src/test/rounding/$(am__dirstamp) \
+	src/test/rounding/$(DEPDIR)/$(am__dirstamp)
+tests/rounding/$(am__dirstamp):
+	@$(MKDIR_P) tests/rounding
+	@: > tests/rounding/$(am__dirstamp)
+
+tests/rounding/findmiddle$(EXEEXT): $(tests_rounding_findmiddle_OBJECTS) $(tests_rounding_findmiddle_DEPENDENCIES) $(EXTRA_tests_rounding_findmiddle_DEPENDENCIES) tests/rounding/$(am__dirstamp)
+	@rm -f tests/rounding/findmiddle$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_rounding_findmiddle_OBJECTS) $(tests_rounding_findmiddle_LDADD) $(LIBS)
 src/test/universal/$(am__dirstamp):
 	@$(MKDIR_P) src/test/universal
 	@: > src/test/universal/$(am__dirstamp)
@@ -1198,6 +1221,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/test/convert/$(DEPDIR)/toint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/test/fuzz/$(DEPDIR)/fuzz.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/test/math/$(DEPDIR)/mathtest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/test/rounding/$(DEPDIR)/findmiddle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/test/rounding/$(DEPDIR)/roundingtest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/test/universal/$(DEPDIR)/posit16.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/test/universal/$(DEPDIR)/posit32.Po@am__quote@
@@ -1658,6 +1682,7 @@ distclean-generic:
 	-rm -f src/test/util/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/test/util/$(am__dirstamp)
 	-rm -f tests/$(am__dirstamp)
+	-rm -f tests/rounding/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -1803,6 +1828,7 @@ src/test/rounding/roundingtest.c: generated/posit.h
 src/test/perf_measure.c: generated/posit.h
 src/test/perf_measure.c: generated/posit.h
 src/test/perf_measure.c: generated/posit.h
+src/test/rounding/findmiddle.c: generated/posit.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

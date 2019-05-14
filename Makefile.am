@@ -200,6 +200,12 @@ tests_convert_toint_SOURCES = Makefile \
 src/test/perf_measure.c: generated/posit.h
 tests_convert_toint_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
 
+bin_PROGRAMS += tests/rounding/findmiddle
+tests_rounding_findmiddle_SOURCES = Makefile \
+	src/test/rounding/findmiddle.c
+src/test/rounding/findmiddle.c: generated/posit.h
+tests_rounding_findmiddle_LDADD = libtestutil.a libposit.a ${mpfr_LIBS}
+
 TESTS= \
 	tests/rounding.test \
 	tests/math.test \
