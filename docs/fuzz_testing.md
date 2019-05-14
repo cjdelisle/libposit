@@ -37,7 +37,7 @@ $ make
 To start fuzzing, start up AFL with the paths to the fuzz inputs and fuzz outputs:
 
 ```
-$ afl-fuzz -i ./src/test/fuzz_inputs/ -o ./generated/fuzz_outputs/ -- ./tests/fuzz --afl
+afl-fuzz -i ./src/test/fuzz_inputs/ -o ./generated/fuzz_outputs/ -- ./tests/fuzz --afl
 ```
 
 You should see the afl-fuzz screen come up and show you the stats.
