@@ -54,7 +54,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // libposit overrides are here:
 // Pulling this in will verify that we have registered functions of the proper signatures
-#include "implementation.h"
+#include "impl.h"
 // This is needed because we're expecting posit<X>_toui() is expected to return a uint32_t
 // and on some systems that's not happening.
 #define uint_fast32_t uint32_t
