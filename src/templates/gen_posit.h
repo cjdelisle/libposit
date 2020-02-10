@@ -80,8 +80,8 @@ posit_ENUM(posit128_debug_SIZE = 40)
 LITERAL(#if) defined(__cplusplus) || defined(_MSC_VER)
 posit_IFUNC(posit128_t posit128_reinterpret(uint64_t* n) {
     posit128_t out;
-    out.longs[0] = n[0];
-    out.longs[1] = n[1];
+    out.lo = n[0];
+    out.hi = n[1];
     return out;
 })
 LITERAL(#else)
