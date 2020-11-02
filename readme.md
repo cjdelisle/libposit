@@ -1,5 +1,7 @@
 # Libposit
 
+Status: unmaintained/incomplete - this is not quite ready for prime time, contact me @cjd on mastodon.social if you would like to take over
+
 [![Build Status](https://travis-ci.org/cjdelisle/libposit.svg?branch=master)](https://travis-ci.org/cjdelisle/libposit)
 
 A library for working with the
