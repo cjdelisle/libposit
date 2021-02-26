@@ -25,31 +25,31 @@ LITERAL(#include) <mpfr.h>
 LITERAL(#endif)
 
 typedef struct posit8_s { uint8_t v; } posit8_t;
-_Static_assert(sizeof(posit8_t) == 1, "");
+//_Static_assert(sizeof(posit8_t) == 1, "");
 
 typedef struct posit8x2_s { posit8_t x; posit8_t y; } posit8x2_t;
-_Static_assert(sizeof(posit8x2_t) == 2, "");
+//_Static_assert(sizeof(posit8x2_t) == 2, "");
 
 typedef struct posit16_s { uint16_t v; } posit16_t;
-_Static_assert(sizeof(posit16_t) == 2, "");
+//_Static_assert(sizeof(posit16_t) == 2, "");
 
 typedef struct posit16x2_s { posit16_t x; posit16_t y; } posit16x2_t;
-_Static_assert(sizeof(posit16x2_t) == 4, "");
+//_Static_assert(sizeof(posit16x2_t) == 4, "");
 
 typedef struct posit32_s { uint32_t v; } posit32_t;
-_Static_assert(sizeof(posit32_t) == 4, "");
+//_Static_assert(sizeof(posit32_t) == 4, "");
 
 typedef struct posit32x2_s { posit32_t x; posit32_t y; } posit32x2_t;
-_Static_assert(sizeof(posit32x2_t) == 8, "");
+//_Static_assert(sizeof(posit32x2_t) == 8, "");
 
 typedef struct posit64_s { uint64_t v; } posit64_t;
-_Static_assert(sizeof(posit64_t) == 8, "");
+//_Static_assert(sizeof(posit64_t) == 8, "");
 
 typedef struct posit64x2_s { posit64_t x; posit64_t y; } posit64x2_t;
-_Static_assert(sizeof(posit64x2_t) == 16, "");
+//_Static_assert(sizeof(posit64x2_t) == 16, "");
 
 typedef struct posit128_s { uint64_t lo; uint64_t hi; } posit128_t;
-_Static_assert(sizeof(posit128_t) == 16, "");
+//_Static_assert(sizeof(posit128_t) == 16, "");
 
 
 posit_IFUNC(uint8_t   posit8_bits(posit8_t p)   { return p.v; })
@@ -80,8 +80,8 @@ posit_ENUM(posit128_debug_SIZE = 40)
 LITERAL(#if) defined(__cplusplus) || defined(_MSC_VER)
 posit_IFUNC(posit128_t posit128_reinterpret(uint64_t* n) {
     posit128_t out;
-    out.longs[0] = n[0];
-    out.longs[1] = n[1];
+    out.lo = n[0];
+    out.hi = n[1];
     return out;
 })
 LITERAL(#else)
